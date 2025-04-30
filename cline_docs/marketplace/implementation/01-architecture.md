@@ -4,7 +4,7 @@ This document provides a comprehensive overview of the Marketplace's architectur
 
 ## System Overview
 
-The Marketplace is built on a modular architecture that separates concerns between data management, UI rendering, and user interactions. The system consists of several key components that work together to provide a seamless experience for discovering, browsing, and managing packages.
+The Marketplace is built on a modular architecture that separates concerns between data management, UI rendering, and user interactions. The system consists of several key components that work together to provide a seamless experience for discovering, browsing, and managing items.
 
 ### High-Level Architecture
 
@@ -38,7 +38,7 @@ The Marketplace components interact through a well-defined message flow:
 1. **Data Loading**:
 
     - GitFetcher handles repository cloning and updates
-    - MetadataScanner loads package data from repositories
+    - MetadataScanner loads item data from repositories
     - MarketplaceManager manages caching and concurrency
     - UI requests data through the message handler
 
@@ -92,9 +92,9 @@ graph LR
 
 ## Sequence Diagrams
 
-### Package Loading Sequence
+### Item Loading Sequence
 
-The following sequence diagram shows how packages are loaded from sources:
+The following sequence diagram shows how items are loaded from sources:
 
 ```mermaid
 sequenceDiagram
@@ -118,7 +118,7 @@ sequenceDiagram
     GF-->>PM: Return repository data
     PM-->>MH: Return initial items
     MH-->>UI: Update with items
-    UI-->>User: Display packages
+    UI-->>User: Display items
 ```
 
 ### Search and Filter Sequence
@@ -277,10 +277,11 @@ classDiagram
 
 3. **MarketplaceItemCard**
 
-    - Displays package information
+    - Displays item information
     - Handles tag interactions
     - Manages expandable sections
     - Shows match highlights
+    - Handle item actions.
 
 4. **ExpandableSection**
 
@@ -369,4 +370,4 @@ The Marketplace architecture is designed for extensibility:
 
 ---
 
-**Previous**: [Adding Custom Package Sources](../user-guide/06-adding-custom-sources.md) | **Next**: [Core Components](./02-core-components.md)
+**Previous**: [Adding Custom Item Sources](../user-guide/06-adding-custom-sources.md) | **Next**: [Core Components](./02-core-components.md)

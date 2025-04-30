@@ -1,5 +1,5 @@
 import { MarketplaceManager } from "../MarketplaceManager"
-import { MarketplaceItem, MarketplaceSource, MarketplaceRepository, ComponentType } from "../types"
+import { MarketplaceItem, MarketplaceSource, MarketplaceRepository, MarketplaceItemType } from "../types"
 import { MetadataScanner } from "../MetadataScanner"
 import { GitFetcher } from "../GitFetcher"
 import * as path from "path"
@@ -74,7 +74,7 @@ describe("PackageManagerManager", () => {
 				{
 					name: "Server Item",
 					description: "A server",
-					type: "mcp server",
+					type: "mcp",
 					url: "test2",
 					repoUrl: "test2",
 				},
@@ -130,23 +130,23 @@ describe("PackageManagerManager", () => {
 	describe("Type Filter Behavior", () => {
 		let typeFilterTestItems: MarketplaceItem[]
 
-		test("should include package with MCP server subcomponent when filtering by type 'mcp server'", () => {
+		test("should include package with MCP server subcomponent when filtering by type 'mcp'", () => {
 			const items: MarketplaceItem[] = [
 				{
 					name: "Data Platform Package",
 					description: "A package containing MCP servers",
-					type: "package" as ComponentType,
+					type: "package" as MarketplaceItemType,
 					url: "test/package",
 					repoUrl: "https://example.com",
 					items: [
 						{
-							type: "mcp server" as ComponentType,
+							type: "mcp" as MarketplaceItemType,
 							path: "test/server",
 							metadata: {
 								name: "Data Validator",
 								description: "An MCP server",
 								version: "1.0.0",
-								type: "mcp server" as ComponentType,
+								type: "mcp" as MarketplaceItemType,
 							},
 						},
 					],
@@ -154,13 +154,13 @@ describe("PackageManagerManager", () => {
 				{
 					name: "Standalone Server",
 					description: "A standalone MCP server",
-					type: "mcp server" as ComponentType,
+					type: "mcp" as MarketplaceItemType,
 					url: "test/server",
 					repoUrl: "https://example.com",
 				},
 			]
 
-			const filtered = manager.filterItems(items, { type: "mcp server" })
+			const filtered = manager.filterItems(items, { type: "mcp" })
 			expect(filtered.length).toBe(2)
 			expect(filtered.map((item) => item.name)).toContain("Data Platform Package")
 			expect(filtered.map((item) => item.name)).toContain("Standalone Server")
@@ -178,25 +178,25 @@ describe("PackageManagerManager", () => {
 				{
 					name: "Data Platform Package",
 					description: "A package containing MCP servers",
-					type: "package" as ComponentType,
+					type: "package" as MarketplaceItemType,
 					url: "test/package",
 					repoUrl: "https://example.com",
 					items: [
 						{
-							type: "mcp server" as ComponentType,
+							type: "mcp" as MarketplaceItemType,
 							path: "test/server",
 							metadata: {
 								name: "Data Validator",
 								description: "An MCP server",
 								version: "1.0.0",
-								type: "mcp server" as ComponentType,
+								type: "mcp" as MarketplaceItemType,
 							},
 						},
 					],
 				},
 			]
 
-			const filtered = manager.filterItems(items, { type: "mcp server" })
+			const filtered = manager.filterItems(items, { type: "mcp" })
 			expect(filtered.length).toBe(1)
 			expect(filtered[0].name).toBe("Data Platform Package")
 			expect(filtered[0].matchInfo?.matched).toBe(true)
@@ -225,13 +225,13 @@ describe("PackageManagerManager", () => {
 							},
 						},
 						{
-							type: "mcp server",
+							type: "mcp",
 							path: "test/server",
 							metadata: {
 								name: "Test Server",
 								description: "A test server",
 								version: "1.0.0",
-								type: "mcp server",
+								type: "mcp",
 							},
 						},
 					],
@@ -482,12 +482,12 @@ describe("PackageManagerManager", () => {
 					repoUrl: "https://example.com",
 					items: [
 						{
-							type: "mcp server",
-							path: "mcp servers/data-validator",
+							type: "mcp",
+							path: "mcps/data-validator",
 							metadata: {
 								name: "Data Validator",
 								description: "An MCP server for validating data quality",
-								type: "mcp server",
+								type: "mcp",
 								version: "1.0.0",
 							},
 							lastUpdated: "2025-04-13T10:00:00-07:00",

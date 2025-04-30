@@ -3,7 +3,7 @@ import { ClineProvider } from "./ClineProvider"
 import { WebviewMessage } from "../../shared/WebviewMessage"
 import {
 	MarketplaceManager,
-	ComponentType,
+	MarketplaceItemType,
 	MarketplaceSource,
 	validateSources,
 	ValidationError,
@@ -197,7 +197,7 @@ export async function handleMarketplaceMessages(
 				try {
 					// Update filtered items and post state
 					marketplaceManager.updateWithFilteredItems({
-						type: message.filters.type as ComponentType | undefined,
+						type: message.filters.type as MarketplaceItemType | undefined,
 						search: message.filters.search,
 						tags: message.filters.tags,
 					})

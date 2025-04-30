@@ -33,10 +33,10 @@ The Marketplace simplifies the process of extending Roo Code's capabilities by p
 - Access source repositories directly
 - Explore subcomponents organized by type
 
-### Package Management
+### Item Management
 
 - Add new components to your environment
-- Manage custom package sources
+- Manage custom item sources
 - Create and contribute your own packages
 
 ## How to Access the Marketplace
@@ -55,4 +55,4 @@ Alternatively, you can use the Command Palette:
 
 ---
 
-**Next**: [Browsing Packages](./02-browsing-packages.md)
+**Next**: [Browsing items](./02-browsing-items.md)

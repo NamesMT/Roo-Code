@@ -25,7 +25,7 @@ describe("MetadataScanner External References", () => {
 
 		// Verify one is a mode and one is an MCP server
 		const hasMode = projectManager?.items?.some((item) => item.type === "mode")
-		const hasMcpServer = projectManager?.items?.some((item) => item.type === "mcp server")
+		const hasMcpServer = projectManager?.items?.some((item) => item.type === "mcp")
 		expect(hasMode).toBe(true)
 		expect(hasMcpServer).toBe(true)
 
@@ -34,6 +34,6 @@ describe("MetadataScanner External References", () => {
 			(item) => item.metadata?.name === "Smartsheet MCP - Project Management",
 		)
 		expect(smartsheet).toBeDefined()
-		expect(smartsheet?.type).toBe("mcp server")
+		expect(smartsheet?.type).toBe("mcp")
 	})
 })

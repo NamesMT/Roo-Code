@@ -4,19 +4,19 @@ This document provides guidance on extending the Marketplace with new features, 
 
 ## Adding New Component Types
 
-The Marketplace is designed to be extensible, allowing for the addition of new component types beyond the default ones (mode, mcp server, prompt, package).
+The Marketplace is designed to be extensible, allowing for the addition of new component types beyond the default ones (mode, mcp, prompt, package).
 
-### Extending the ComponentType
+### Extending the MarketplaceItemType
 
 To add a new component type:
 
-1. **Update the ComponentType Type**:
+1. **Update the MarketplaceItemType Type**:
 
 ```typescript
 /**
  * Supported component types
  */
-export type ComponentType = "mode" | "prompt" | "package" | "mcp server" | "your-new-type"
+export type MarketplaceItemType = "mode" | "prompt" | "package" | "mcp" | "your-new-type"
 ```
 
 2. **Update Type Label Functions**:
@@ -26,7 +26,7 @@ const getTypeLabel = (type: string) => {
 	switch (type) {
 		case "mode":
 			return "Mode"
-		case "mcp server":
+		case "mcp":
 			return "MCP Server"
 		case "prompt":
 			return "Prompt"
@@ -47,7 +47,7 @@ const getTypeColor = (type: string) => {
 	switch (type) {
 		case "mode":
 			return "bg-blue-600"
-		case "mcp server":
+		case "mcp":
 			return "bg-green-600"
 		case "prompt":
 			return "bg-purple-600"
@@ -68,7 +68,7 @@ const getTypeGroupLabel = (type: string) => {
 	switch (type) {
 		case "mode":
 			return "Modes"
-		case "mcp server":
+		case "mcp":
 			return "MCP Servers"
 		case "prompt":
 			return "Prompts"
@@ -84,7 +84,7 @@ const getTypeGroupLabel = (type: string) => {
 
 ### Directory Structure for New Types
 
-When adding a new component type, follow this directory structure in your package source repository:
+When adding a new component type, follow this directory structure in your source repository:
 
 ```
 repository-root/
@@ -134,7 +134,7 @@ const getTypeIcon = (type: string) => {
 	switch (type) {
 		case "mode":
 			return "codicon-person"
-		case "mcp server":
+		case "mcp":
 			return "codicon-server"
 		case "prompt":
 			return "codicon-comment"
@@ -463,9 +463,9 @@ const CustomPackageCard: React.FC<MarketplaceItemCardProps> = (props) => {
 
 ```tsx
 interface ComponentOverrides {
-	PackageCard?: React.ComponentType<MarketplaceItemCardProps>
-	ExpandableSection?: React.ComponentType<ExpandableSectionProps>
-	TypeGroup?: React.ComponentType<TypeGroupProps>
+	PackageCard?: React.MarketplaceItemType<MarketplaceItemCardProps>
+	ExpandableSection?: React.MarketplaceItemType<ExpandableSectionProps>
+	TypeGroup?: React.MarketplaceItemType<TypeGroupProps>
 }
 
 const MarketplaceView: React.FC<{

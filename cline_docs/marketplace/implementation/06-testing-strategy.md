@@ -428,7 +428,7 @@ describe("Marketplace Integration", () => {
 	beforeAll(async () => {
 		// Load real data from template
 		metadataScanner = new MetadataScanner()
-		const templatePath = path.resolve(__dirname, "../../../../marketplace-template")
+		const templatePath = path.resolve(__dirname, "marketplace-template")
 		templateItems = await metadataScanner.scanDirectory(templatePath, "https://example.com")
 	})
 
@@ -529,8 +529,8 @@ describe("Marketplace UI Integration", () => {
       ]
     },
     {
-      name: "Another Package",
-      description: "Another test package",
+      name: "Test Mode",
+      description: "Another test item",
       type: "mode",
       url: "https://example.com",
       repoUrl: "https://github.com/example/repo",
@@ -546,18 +546,18 @@ describe("Marketplace UI Integration", () => {
   it("should filter items when search is entered", async () => {
     render(<MarketplaceView initialItems={mockItems} />);
 
-    // Both packages should be visible initially
+    // Both items should be visible initially
     expect(screen.getByText("Test Package")).toBeInTheDocument();
-    expect(screen.getByText("Another Package")).toBeInTheDocument();
+    expect(screen.getByText("Test Mode")).toBeInTheDocument();
 
     // Enter search term
-    const searchInput = screen.getByPlaceholderText("Search packages...");
+    const searchInput = screen.getByPlaceholderText("Search items...");
     fireEvent.change(searchInput, { target: { value: "another" } });
 
     // Wait for debounce
     await waitFor(() => {
       expect(screen.queryByText("Test Package")).not.toBeInTheDocument();
-      expect(screen.getByText("Another Package")).toBeInTheDocument();
+      expect(screen.getByText("Test Mode")).toBeInTheDocument();
     });
   });
 
@@ -565,7 +565,7 @@ describe("Marketplace UI Integration", () => {
     render(<MarketplaceView initialItems={mockItems} />);
 
     // Enter search term that matches a subcomponent
-    const searchInput = screen.getByPlaceholderText("Search packages...");
+    const searchInput = screen.getByPlaceholderText("Search items...");
     fireEvent.change(searchInput, { target: { value: "test mode" } });
 
     // Wait for debounce and expansion
@@ -644,12 +644,12 @@ export const metadataFixtures = {
 				},
 			},
 			{
-				type: "mcp server",
+				type: "mcp",
 				path: "/test/path/server",
 				metadata: {
 					name: "Test Server",
 					description: "A test server",
-					type: "mcp server",
+					type: "mcp",
 				},
 			},
 		],
@@ -665,7 +665,7 @@ Real template data is used for integration tests:
 beforeAll(async () => {
 	// Load real data from template
 	metadataScanner = new MetadataScanner()
-	const templatePath = path.resolve(__dirname, "../../../../marketplace-template")
+	const templatePath = path.resolve(__dirname, "marketplace-template")
 	templateItems = await metadataScanner.scanDirectory(templatePath, "https://example.com")
 })
 ```
@@ -677,7 +677,7 @@ Generators create varied test data:
 ```typescript
 // Test data generator
 function generatePackageItems(count: number): MarketplaceItem[] {
-	const types: ComponentType[] = ["mode", "mcp server", "package", "prompt"]
+	const types: MarketplaceItemType[] = ["mode", "mcp", "package", "prompt"]
 	const tags = ["test", "example", "data", "ui", "server", "client"]
 
 	return Array.from({ length: count }, (_, i) => {
@@ -699,7 +699,7 @@ function generatePackageItems(count: number): MarketplaceItem[] {
 }
 
 function generateSubcomponents(count: number): MarketplaceItem["items"] {
-	const types: ComponentType[] = ["mode", "mcp server", "prompt"]
+	const types: MarketplaceItemType[] = ["mode", "mcp", "prompt"]
 
 	return Array.from({ length: count }, (_, i) => {
 		const type = types[i % types.length]
@@ -739,12 +739,12 @@ This section outlines the test plan for the type filtering functionality in the 
 - **Expected**: Only items with type "mode" are returned
 - **Verification**: Check that the returned items all have type "mode"
 
-**Test: Filter by MCP Server Type**
+**Test: Filter by mcp Type**
 
-- **Input**: Items with various types including "mcp server"
-- **Filter**: `{ type: "mcp server" }`
-- **Expected**: Only items with type "mcp server" are returned
-- **Verification**: Check that the returned items all have type "mcp server"
+- **Input**: Items with various types including "mcp"
+- **Filter**: `{ type: "mcp" }`
+- **Expected**: Only items with type "mcp" are returned
+- **Verification**: Check that the returned items all have type "mcp"
 
 #### 2. Package with Subcomponents Tests
 
@@ -778,7 +778,7 @@ This section outlines the test plan for the type filtering functionality in the 
 
 **Test: Type Filter and Search Term**
 
-- **Input**: Various items including packages with subcomponents
+- **Input**: Various items including packages with subitems
 - **Filter**: `{ type: "mode", search: "test" }`
 - **Expected**: Only items that match both the type filter and the search term are returned
 - **Verification**:
@@ -864,7 +864,7 @@ This section outlines the test plan for the type filtering functionality in the 
 **Test: Invalid Type**
 
 - **Input**: Various items
-- **Filter**: `{ type: "invalid" as ComponentType }`
+- **Filter**: `{ type: "invalid" as MarketplaceItemType }`
 - **Expected**: No items are returned (since none match the invalid type)
 - **Verification**: Check that an empty array is returned
 
@@ -897,9 +897,9 @@ This section outlines the test plan for the type filtering functionality in the 
 
 #### 2. Deep Nesting
 
-**Test: Deeply Nested Packages**
+**Test: Deeply Nested Items**
 
-- **Input**: Packages with deeply nested subcomponents
+- **Input**: Items with deeply nested subcomponents
 - **Filter**: Various filters
 - **Expected**: The filtering correctly handles the nested structure
 - **Verification**: Check that the results are correct for deeply nested structures
@@ -1155,9 +1155,9 @@ describe("Search functionality", () => {
 describe("Package filtering", () => {
 	/**
 	 * Scenario: User filters by type and search term
-	 * Given: A list of packages of different types
+	 * Given: A list of items of different types
 	 * When: The user selects a type filter and enters a search term
-	 * Then: Only packages of the selected type containing the search term should be shown
+	 * Then: Only items of the selected type containing the search term should be shown
 	 */
 	it("should combine type and search filters", () => {
 		// Test implementation...
