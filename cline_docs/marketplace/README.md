@@ -11,7 +11,7 @@ The user guide provides end-user documentation for using the Marketplace:
 1. [Introduction to Marketplace](./user-guide/01-introduction.md) - Overview and purpose of the Marketplace
 2. [Browsing Items](./user-guide/02-browsing-items.md) - Understanding the interface and navigating items
 3. [Searching and Filtering](./user-guide/03-searching-and-filtering.md) - Using search and filters to find items
-4. [Working with Item Details](./user-guide/04-working-with-details.md) - Exploring item details and items
+4. [Working with Package Details](./user-guide/04-working-with-details.md) - Exploring package details and items
 5. [Adding Packages](./user-guide/05-adding-packages.md) - Creating and contributing your own items
 6. [Adding Custom Sources](./user-guide/06-adding-custom-sources.md) - Setting up and managing custom sources
 
