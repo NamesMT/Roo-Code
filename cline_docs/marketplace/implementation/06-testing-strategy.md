@@ -175,11 +175,11 @@ describe("MetadataScanner", () => {
 })
 ```
 
-#### PackageManagerManager Tests
+#### MarketplaceManager Tests
 
 ```typescript
-describe("PackageManagerManager", () => {
-	let manager: PackageManagerManager
+describe("MarketplaceManager", () => {
+	let manager: MarketplaceManager
 	let mockContext: vscode.ExtensionContext
 
 	beforeEach(() => {
@@ -193,7 +193,7 @@ describe("PackageManagerManager", () => {
 			},
 		} as unknown as vscode.ExtensionContext
 
-		manager = new PackageManagerManager(mockContext)
+		manager = new MarketplaceManager(mockContext)
 	})
 
 	describe("filterItems", () => {
@@ -202,7 +202,7 @@ describe("PackageManagerManager", () => {
 			manager["currentItems"] = [
 				{ name: "Item 1", type: "mode", description: "Test item 1" },
 				{ name: "Item 2", type: "package", description: "Test item 2" },
-			] as PackageManagerItem[]
+			] as MarketplaceItem[]
 
 			const result = manager.filterItems({ type: "mode" })
 
@@ -215,7 +215,7 @@ describe("PackageManagerManager", () => {
 			manager["currentItems"] = [
 				{ name: "Alpha Item", type: "mode", description: "Test item" },
 				{ name: "Beta Item", type: "package", description: "Another test" },
-			] as PackageManagerItem[]
+			] as MarketplaceItem[]
 
 			const result = manager.filterItems({ search: "alpha" })
 
@@ -277,11 +277,11 @@ describe("searchUtils", () => {
 
 Frontend unit tests verify the functionality of UI components:
 
-#### PackageManagerItemCard Tests
+#### MarketplaceItemCard Tests
 
 ```typescript
-describe("PackageManagerItemCard", () => {
-  const mockItem: PackageManagerItem = {
+describe("MarketplaceItemCard", () => {
+  const mockItem: MarketplaceItem = {
     name: "Test Package",
     description: "A test package",
     type: "package",
@@ -302,7 +302,7 @@ describe("PackageManagerItemCard", () => {
 
   it("renders correctly", () => {
     render(
-      <PackageManagerItemCard
+      <MarketplaceItemCard
         item={mockItem}
         filters={mockFilters}
         setFilters={mockSetFilters}
@@ -318,7 +318,7 @@ describe("PackageManagerItemCard", () => {
 
   it("handles tag clicks", () => {
     render(
-      <PackageManagerItemCard
+      <MarketplaceItemCard
         item={mockItem}
         filters={mockFilters}
         setFilters={mockSetFilters}
@@ -421,9 +421,9 @@ Integration tests verify that different components work together correctly.
 
 ```typescript
 describe("Marketplace Integration", () => {
-	let manager: PackageManagerManager
+	let manager: MarketplaceManager
 	let metadataScanner: MetadataScanner
-	let templateItems: PackageManagerItem[]
+	let templateItems: MarketplaceItem[]
 
 	beforeAll(async () => {
 		// Load real data from template
@@ -440,7 +440,7 @@ describe("Marketplace Integration", () => {
 		} as vscode.ExtensionContext
 
 		// Create real instances
-		manager = new PackageManagerManager(context)
+		manager = new MarketplaceManager(context)
 
 		// Set up manager with template data
 		manager["currentItems"] = [...templateItems]
@@ -455,7 +455,7 @@ describe("Marketplace Integration", () => {
 				tagFilters: [],
 			}
 
-			const result = await handlePackageManagerMessages(message, manager)
+			const result = await handleMarketplaceMessages(message, manager)
 
 			expect(result.type).toBe("searchResults")
 			expect(result.data).toHaveLength(1)
@@ -470,7 +470,7 @@ describe("Marketplace Integration", () => {
 				tagFilters: [],
 			}
 
-			const result = await handlePackageManagerMessages(message, manager)
+			const result = await handleMarketplaceMessages(message, manager)
 
 			expect(result.type).toBe("searchResults")
 			expect(result.data.every((item) => item.type === "mode")).toBe(true)
@@ -488,7 +488,7 @@ describe("Marketplace Integration", () => {
 				tagFilters: [],
 			}
 
-			const result = await handlePackageManagerMessages(message, manager)
+			const result = await handleMarketplaceMessages(message, manager)
 
 			expect(result.data.length).toBeGreaterThan(0)
 
@@ -508,7 +508,7 @@ describe("Marketplace Integration", () => {
 
 ```typescript
 describe("Marketplace UI Integration", () => {
-  const mockItems: PackageManagerItem[] = [
+  const mockItems: MarketplaceItem[] = [
     {
       name: "Test Package",
       description: "A test package",
@@ -544,7 +544,7 @@ describe("Marketplace UI Integration", () => {
   });
 
   it("should filter items when search is entered", async () => {
-    render(<PackageManagerView initialItems={mockItems} />);
+    render(<MarketplaceView initialItems={mockItems} />);
 
     // Both packages should be visible initially
     expect(screen.getByText("Test Package")).toBeInTheDocument();
@@ -562,7 +562,7 @@ describe("Marketplace UI Integration", () => {
   });
 
   it("should expand details when search matches subcomponents", async () => {
-    render(<PackageManagerView initialItems={mockItems} />);
+    render(<MarketplaceView initialItems={mockItems} />);
 
     // Enter search term that matches a subcomponent
     const searchInput = screen.getByPlaceholderText("Search packages...");
@@ -592,7 +592,7 @@ The Marketplace uses several approaches to manage test data:
 Mock data is used for simple unit tests:
 
 ```typescript
-const mockItems: PackageManagerItem[] = [
+const mockItems: MarketplaceItem[] = [
 	{
 		name: "Test Package",
 		description: "A test package",
@@ -676,7 +676,7 @@ Generators create varied test data:
 
 ```typescript
 // Test data generator
-function generatePackageItems(count: number): PackageManagerItem[] {
+function generatePackageItems(count: number): MarketplaceItem[] {
 	const types: ComponentType[] = ["mode", "mcp server", "package", "prompt"]
 	const tags = ["test", "example", "data", "ui", "server", "client"]
 
@@ -698,7 +698,7 @@ function generatePackageItems(count: number): PackageManagerItem[] {
 	})
 }
 
-function generateSubcomponents(count: number): PackageManagerItem["items"] {
+function generateSubcomponents(count: number): MarketplaceItem["items"] {
 	const types: ComponentType[] = ["mode", "mcp server", "prompt"]
 
 	return Array.from({ length: count }, (_, i) => {
@@ -912,7 +912,7 @@ The Marketplace tests are organized by functionality rather than by file structu
 
 ```
 src/services/marketplace/__tests__/
-├── PackageManager.consolidated.test.ts  # Combined tests
+├── Marketplace.consolidated.test.ts  # Combined tests
 ├── searchUtils.test.ts                  # Search utility tests
 └── PackageSubcomponents.test.ts         # Subcomponent tests
 ```
@@ -1011,7 +1011,7 @@ describe("Marketplace Integration", () => {
 
 	// Create fresh manager for each test
 	beforeEach(() => {
-		manager = new PackageManagerManager(mockContext)
+		manager = new MarketplaceManager(mockContext)
 		manager["currentItems"] = [...templateItems]
 	})
 
@@ -1114,7 +1114,7 @@ describe("Complex integration test", () => {
 // Visual debugging for UI tests
 describe("UI component test", () => {
   it("should render correctly", async () => {
-    const { container } = render(<PackageManagerItemCard item={mockItem} />);
+    const { container } = render(<MarketplaceItemCard item={mockItem} />);
 
     // Save screenshot for visual debugging
     if (process.env.SAVE_SCREENSHOTS) {

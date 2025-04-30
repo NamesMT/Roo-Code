@@ -2,14 +2,14 @@
 
 This document details the design and implementation of the Marketplace's UI components, including their structure, styling, interactions, and accessibility features.
 
-## PackageManagerView
+## MarketplaceView
 
-The PackageManagerView is the main container component that manages the overall marketplace interface.
+The MarketplaceView is the main container component that manages the overall marketplace interface.
 
 ### Component Structure
 
 ```tsx
-const PackageManagerView: React.FC<PackageManagerViewProps> = ({ onDone }) => {
+const MarketplaceView: React.FC<MarketplaceViewProps> = ({ onDone }) => {
 	const [state, manager] = useStateManager()
 	const [tagSearch, setTagSearch] = useState("")
 	const [isTagInputActive, setIsTagInputActive] = useState(false)
@@ -87,7 +87,7 @@ const PackageManagerView: React.FC<PackageManagerViewProps> = ({ onDone }) => {
 
 ### State Management Integration
 
-The component uses the PackageManagerViewStateManager through the useStateManager hook:
+The component uses the MarketplaceViewStateManager through the useStateManager hook:
 
 ```tsx
 const [state, manager] = useStateManager()
@@ -101,14 +101,14 @@ Key features:
 - Manages loading states
 - Handles source validation
 
-## PackageManagerItemCard
+## MarketplaceItemCard
 
-The PackageManagerItemCard is the primary component for displaying package information in the UI.
+The MarketplaceItemCard is the primary component for displaying package information in the UI.
 
 ### Component Structure
 
 ```tsx
-export const PackageManagerItemCard: React.FC<PackageManagerItemCardProps> = ({
+export const MarketplaceItemCard: React.FC<MarketplaceItemCardProps> = ({
 	item,
 	filters,
 	setFilters,
@@ -766,7 +766,7 @@ The Marketplace UI is designed to work across different viewport sizes:
 // Example of responsive layout
 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 	{items.map((item) => (
-		<PackageManagerItemCard key={item.name} item={item} />
+		<MarketplaceItemCard key={item.name} item={item} />
 	))}
 </div>
 ```
@@ -964,8 +964,8 @@ The Marketplace UI components include comprehensive tests:
 
 ```typescript
 // Example of component unit test
-describe("PackageManagerItemCard", () => {
-  const mockItem: PackageManagerItem = {
+describe("MarketplaceItemCard", () => {
+  const mockItem: MarketplaceItem = {
     name: "Test Package",
     description: "A test package",
     type: "package",
@@ -982,7 +982,7 @@ describe("PackageManagerItemCard", () => {
 
   it("renders correctly", () => {
     render(
-      <PackageManagerItemCard
+      <MarketplaceItemCard
         item={mockItem}
         filters={mockFilters}
         setFilters={mockSetFilters}
@@ -998,7 +998,7 @@ describe("PackageManagerItemCard", () => {
 
   it("handles tag clicks", () => {
     render(
-      <PackageManagerItemCard
+      <MarketplaceItemCard
         item={mockItem}
         filters={mockFilters}
         setFilters={mockSetFilters}
@@ -1024,7 +1024,7 @@ describe("PackageManagerItemCard", () => {
 // Example of snapshot test
 it("matches snapshot", () => {
   const { container } = render(
-    <PackageManagerItemCard
+    <MarketplaceItemCard
       item={mockItem}
       filters={mockFilters}
       setFilters={mockSetFilters}
@@ -1043,7 +1043,7 @@ it("matches snapshot", () => {
 // Example of accessibility test
 it("meets accessibility requirements", async () => {
   const { container } = render(
-    <PackageManagerItemCard
+    <MarketplaceItemCard
       item={mockItem}
       filters={mockFilters}
       setFilters={mockSetFilters}

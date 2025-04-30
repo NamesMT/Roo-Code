@@ -2,7 +2,7 @@
 
 ## Overview and Purpose
 
-The Marketplace is a powerful feature in Roo Code that allows you to discover, browse, and utilize various components to enhance your development experience. It serves as a centralized hub for accessing:
+The Marketplace is a powerful feature in Roo Code that allows you to discover, browse, and utilize various items to enhance your development experience. It serves as a centralized hub for accessing:
 
 - **Modes**: Specialized AI assistants with different capabilities
 - **MCP Servers**: Model Context Protocol servers that provide additional functionality

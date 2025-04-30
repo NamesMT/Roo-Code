@@ -50,7 +50,7 @@ authorUrl: "http://your.profile.url/" #optional
 Here's how a package might look in the actual source tree:
 
 ```
-Roo-Code-Packages/
+Roo-Code-Marketplace/
 ├── shared-prompts/                # Shared prompts directory
 │   └── data-analysis/
 │       └── metadata.en.yml

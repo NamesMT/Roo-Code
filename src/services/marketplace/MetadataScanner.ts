@@ -76,7 +76,7 @@ export class MetadataScanner {
 			const localizedMetadata = metadata ? this.getLocalizedMetadata(metadata) : null
 
 			if (localizedMetadata) {
-				const item = await this.createPackageManagerItem(
+				const item = await this.createMarketplaceItem(
 					localizedMetadata,
 					componentDir,
 					repoUrl,
@@ -220,14 +220,14 @@ export class MetadataScanner {
 	}
 
 	/**
-	 * Creates a PackageManagerItem from component metadata
+	 * Creates a MarketplaceItem from component metadata
 	 * @param metadata The component metadata
 	 * @param componentDir The component directory
 	 * @param repoUrl The repository URL
 	 * @param sourceName Optional source repository name
-	 * @returns PackageManagerItem or null if invalid
+	 * @returns MarketplaceItem or null if invalid
 	 */
-	private async createPackageManagerItem(
+	private async createMarketplaceItem(
 		metadata: ComponentMetadata,
 		componentDir: string,
 		repoUrl: string,

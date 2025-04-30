@@ -24,15 +24,15 @@ These types represent the different kinds of components that can be managed by t
 
 ## Core Data Structures
 
-### PackageManagerRepository
+### MarketplaceRepository
 
 ```typescript
 /**
  * Represents a repository with its metadata and items
  */
-export interface PackageManagerRepository {
+export interface MarketplaceRepository {
 	metadata: RepositoryMetadata
-	items: PackageManagerItem[]
+	items: MarketplaceItem[]
 	url: string
 	defaultBranch: string
 	error?: string
@@ -47,13 +47,13 @@ This interface represents a complete repository:
 - **defaultBranch**: The default Git branch (e.g., "main")
 - **error**: Optional error message if there was a problem
 
-### PackageManagerItem
+### MarketplaceItem
 
 ```typescript
 /**
  * Represents an individual marketplace item
  */
-export interface PackageManagerItem {
+export interface MarketplaceItem {
 	name: string
 	description: string
 	type: ComponentType
@@ -133,12 +133,12 @@ Used for structured validation errors:
  * View-level state management
  */
 interface ViewState {
-	allItems: PackageManagerItem[]
-	displayItems?: PackageManagerItem[]
+	allItems: MarketplaceItem[]
+	displayItems?: MarketplaceItem[]
 	isFetching: boolean
 	activeTab: "browse" | "sources"
 	refreshingUrls: string[]
-	sources: PackageManagerSource[]
+	sources: MarketplaceSource[]
 	filters: Filters
 	sortConfig: {
 		by: "name" | "author" | "lastUpdated"
@@ -176,12 +176,12 @@ type ViewStateTransition = {
 		| "REFRESH_SOURCE_COMPLETE"
 		| "UPDATE_SOURCES"
 	payload?: {
-		items?: PackageManagerItem[]
+		items?: MarketplaceItem[]
 		tab?: "browse" | "sources"
 		filters?: Partial<Filters>
 		sortConfig?: Partial<SortConfig>
 		url?: string
-		sources?: PackageManagerSource[]
+		sources?: MarketplaceSource[]
 	}
 }
 ```
@@ -274,13 +274,13 @@ Enhanced with:
 
 ## Source Management
 
-### PackageManagerSource
+### MarketplaceSource
 
 ```typescript
 /**
  * Git repository source
  */
-export interface PackageManagerSource {
+export interface MarketplaceSource {
 	url: string
 	name?: string
 	enabled: boolean
@@ -337,7 +337,7 @@ Generic cache structure:
 /**
  * Repository cache management
  */
-type RepositoryCache = Map<string, CacheEntry<PackageManagerRepository>>
+type RepositoryCache = Map<string, CacheEntry<MarketplaceRepository>>
 ```
 
 Specialized for repositories:
@@ -351,7 +351,7 @@ Specialized for repositories:
 ### Input Messages
 
 ```typescript
-type PackageManagerMessage =
+type MarketplaceMessage =
 	| { type: "getItems" }
 	| {
 			type: "search"
@@ -374,14 +374,14 @@ type PackageManagerMessage =
 ### Output Messages
 
 ```typescript
-type PackageManagerResponse =
+type MarketplaceResponse =
 	| {
 			type: "items"
-			data: PackageManagerItem[]
+			data: MarketplaceItem[]
 	  }
 	| {
 			type: "searchResults"
-			data: PackageManagerItem[]
+			data: MarketplaceItem[]
 			filters: Filters
 	  }
 	| {
@@ -489,7 +489,7 @@ Repository
 ### State Flow
 
 ```
-Git Repository → Cache → PackageManager → ViewState → UI
+Git Repository → Cache → Marketplace → ViewState → UI
 ```
 
 ### Filter Chain

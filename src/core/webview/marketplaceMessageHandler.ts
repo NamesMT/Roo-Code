@@ -87,7 +87,7 @@ export async function handleMarketplaceMessages(
 						marketplaceManager.isFetching = false
 					}
 
-					// The items are already stored in PackageManagerManager's currentItems
+					// The items are already stored in MarketplaceManager's currentItems
 					// No need to store in global state
 
 					// Send state to webview
@@ -100,7 +100,7 @@ export async function handleMarketplaceMessages(
 						type: "state",
 						text: errorMessage,
 					})
-					// The state will already be updated with empty items by PackageManagerManager
+					// The state will already be updated with empty items by MarketplaceManager
 					await provider.postStateToWebview()
 					marketplaceManager.isFetching = false
 				}

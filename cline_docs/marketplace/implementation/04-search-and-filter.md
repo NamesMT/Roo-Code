@@ -13,13 +13,13 @@ The Marketplace implements a comprehensive filtering system that handles multipl
  * Filter items based on criteria with match tracking
  */
 export function filterItems(
-	items: PackageManagerItem[],
+	items: MarketplaceItem[],
 	filters: {
 		type?: ComponentType
 		search?: string
 		tags?: string[]
 	},
-): PackageManagerItem[] {
+): MarketplaceItem[] {
 	// Helper function to normalize text for case-insensitive comparison
 	const normalizeText = (text: string) => text.toLowerCase().replace(/\s+/g, " ").trim()
 
@@ -27,7 +27,7 @@ export function filterItems(
 	const searchTerm = filters.search ? normalizeText(filters.search) : ""
 
 	// Create a deep clone of items
-	const clonedItems = items.map((item) => JSON.parse(JSON.stringify(item)) as PackageManagerItem)
+	const clonedItems = items.map((item) => JSON.parse(JSON.stringify(item)) as MarketplaceItem)
 
 	return clonedItems
 		.filter((item) => {
@@ -85,7 +85,7 @@ The system tracks detailed match information:
 /**
  * Add match information to items
  */
-function addMatchInfo(item: PackageManagerItem, filters: Filters): PackageManagerItem {
+function addMatchInfo(item: MarketplaceItem, filters: Filters): MarketplaceItem {
 	const matchReason: Record<string, boolean> = {
 		nameMatch: filters.search ? containsSearchTerm(item.name, filters.search) : true,
 		descriptionMatch: filters.search ? containsSearchTerm(item.description, filters.search) : true,
@@ -140,11 +140,11 @@ The Marketplace implements flexible sorting with subcomponent support:
  * Sort items with subcomponent support
  */
 export function sortItems(
-	items: PackageManagerItem[],
+	items: MarketplaceItem[],
 	sortBy: "name" | "lastUpdated" | "author",
 	sortOrder: "asc" | "desc",
 	sortSubcomponents: boolean = false,
-): PackageManagerItem[] {
+): MarketplaceItem[] {
 	return [...items]
 		.map((item) => {
 			const clonedItem = { ...item }
@@ -172,7 +172,7 @@ export function sortItems(
 The filtering system integrates with the state management through state transitions:
 
 ```typescript
-export class PackageManagerViewStateManager {
+export class MarketplaceViewStateManager {
 	private state: ViewState
 	private stateChangeHandlers: Set<StateChangeHandler>
 
@@ -202,14 +202,14 @@ export class PackageManagerViewStateManager {
 
 				// Request filtered items from backend
 				vscode.postMessage({
-					type: "filterPackageManagerItems",
+					type: "filterMarketplaceItems",
 					filters: updatedFilters,
 				})
 				break
 			}
 
 			case "FETCH_COMPLETE": {
-				const { items } = transition.payload as { items: PackageManagerItem[] }
+				const { items } = transition.payload as { items: MarketplaceItem[] }
 
 				// Update both all items and display items
 				this.state = {
@@ -242,7 +242,7 @@ export class PackageManagerViewStateManager {
 ### Concurrent Operation Handling
 
 ```typescript
-export class PackageManagerManager {
+export class MarketplaceManager {
 	private isMetadataScanActive = false
 	private pendingOperations: Array<() => Promise<void>> = []
 

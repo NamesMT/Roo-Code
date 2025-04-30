@@ -12,8 +12,8 @@ The Marketplace is built on a modular architecture that separates concerns betwe
 graph TD
     User[User] -->|Interacts with| UI[Marketplace UI]
     UI -->|Sends messages| MH[Message Handler]
-    MH -->|Processes requests| PM[PackageManagerManager]
-    PM -->|Validates sources| PSV[PackageManagerSourceValidation]
+    MH -->|Processes requests| PM[MarketplaceManager]
+    PM -->|Validates sources| PSV[MarketplaceSourceValidation]
     PM -->|Fetches repos| GF[GitFetcher]
     GF -->|Scans metadata| MS[MetadataScanner]
     MS -->|Reads| FS[File System / Git Repositories]
@@ -39,19 +39,19 @@ The Marketplace components interact through a well-defined message flow:
 
     - GitFetcher handles repository cloning and updates
     - MetadataScanner loads package data from repositories
-    - PackageManagerManager manages caching and concurrency
+    - MarketplaceManager manages caching and concurrency
     - UI requests data through the message handler
 
 2. **Filtering and Search**:
 
     - UI sends filter/search criteria to the backend
-    - PackageManagerManager applies filters with match info
+    - MarketplaceManager applies filters with match info
     - Filtered results are returned to the UI
     - State manager handles view-level filtering
 
 3. **Source Management**:
     - UI sends source management commands
-    - PackageManagerManager coordinates with GitFetcher
+    - MarketplaceManager coordinates with GitFetcher
     - Cache is managed with timeout protection
     - Sources are processed with concurrency control
 
@@ -69,7 +69,7 @@ graph LR
     subgraph Backend
         GF[GitFetcher]
         MS[MetadataScanner]
-        PM[PackageManagerManager]
+        PM[MarketplaceManager]
         MH[Message Handler]
     end
 
@@ -101,7 +101,7 @@ sequenceDiagram
     participant User
     participant UI as UI Components
     participant MH as Message Handler
-    participant PM as PackageManagerManager
+    participant PM as MarketplaceManager
     participant GF as GitFetcher
     participant MS as MetadataScanner
     participant FS as File System/Git
@@ -131,7 +131,7 @@ sequenceDiagram
     participant UI as UI Components
     participant State as State Manager
     participant MH as Message Handler
-    participant PM as PackageManagerManager
+    participant PM as MarketplaceManager
 
     User->>UI: Enter search term
     UI->>State: Update filters
@@ -162,20 +162,20 @@ The following class diagram shows the main classes in the Marketplace system:
 
 ```mermaid
 classDiagram
-    class PackageManagerManager {
-        -currentItems: PackageManagerItem[]
+    class MarketplaceManager {
+        -currentItems: MarketplaceItem[]
         -cache: Map
         -gitFetcher: GitFetcher
         -activeSourceOperations: Set
-        +getPackageManagerItems(): PackageManagerItem[]
-        +filterItems(filters): PackageManagerItem[]
-        +sortItems(sortBy, order): PackageManagerItem[]
+        +getMarketplaceItems(): MarketplaceItem[]
+        +filterItems(filters): MarketplaceItem[]
+        +sortItems(sortBy, order): MarketplaceItem[]
         +refreshRepository(url): void
         -queueOperation(operation): void
         -validateSources(sources): ValidationError[]
     }
 
-    class PackageManagerSourceValidation {
+    class MarketplaceSourceValidation {
         +validateSourceUrl(url): ValidationError[]
         +validateSourceName(name): ValidationError[]
         +validateSourceDuplicates(sources): ValidationError[]
@@ -187,7 +187,7 @@ classDiagram
     class GitFetcher {
         -cacheDir: string
         -metadataScanner: MetadataScanner
-        +fetchRepository(url): PackageManagerRepository
+        +fetchRepository(url): MarketplaceRepository
         -cloneOrPullRepository(url): void
         -validateRepositoryStructure(dir): void
         -parseRepositoryMetadata(dir): RepositoryMetadata
@@ -195,12 +195,12 @@ classDiagram
 
     class MetadataScanner {
         -git: SimpleGit
-        +scanDirectory(path): PackageManagerItem[]
+        +scanDirectory(path): MarketplaceItem[]
         +parseMetadata(file): ComponentMetadata
-        -buildComponentHierarchy(items): PackageManagerItem[]
+        -buildComponentHierarchy(items): MarketplaceItem[]
     }
 
-    class PackageManagerViewStateManager {
+    class MarketplaceViewStateManager {
         -state: ViewState
         -stateChangeHandlers: Set
         -fetchTimeoutId: NodeJS.Timeout
@@ -213,15 +213,15 @@ classDiagram
         -notifyStateChange(): void
         -clearFetchTimeout(): void
         -isFilterActive(): boolean
-        -filterItems(items): PackageManagerItem[]
-        -sortItems(items): PackageManagerItem[]
+        -filterItems(items): MarketplaceItem[]
+        -sortItems(items): MarketplaceItem[]
         +handleMessage(message): Promise<void>
     }
 
-    PackageManagerManager --> GitFetcher: uses
-    PackageManagerManager --> PackageManagerSourceValidation: uses
+    MarketplaceManager --> GitFetcher: uses
+    MarketplaceManager --> MarketplaceSourceValidation: uses
     GitFetcher --> MetadataScanner: uses
-    PackageManagerManager --> PackageManagerViewStateManager: updates
+    MarketplaceManager --> MarketplaceViewStateManager: updates
 ```
 
 ## Component Responsibilities
@@ -242,7 +242,7 @@ classDiagram
     - Builds component hierarchies
     - Handles file system operations
 
-3. **PackageManagerManager**
+3. **MarketplaceManager**
 
     - Manages concurrent operations
     - Handles caching with timeout protection
@@ -257,7 +257,7 @@ classDiagram
 
 ### Frontend Components
 
-1. **PackageManagerViewStateManager**
+1. **MarketplaceViewStateManager**
 
     - Manages frontend state and backend synchronization
     - Handles state transitions and message processing
@@ -267,7 +267,7 @@ classDiagram
     - Manages source modification tracking
     - Provides state change subscriptions
 
-2. **PackageManagerSourceValidation**
+2. **MarketplaceSourceValidation**
 
     - Validates Git repository URLs for any domain
     - Validates source names and configurations
@@ -275,7 +275,7 @@ classDiagram
     - Provides structured validation errors
     - Supports multiple Git protocols (HTTPS, SSH, Git)
 
-3. **PackageManagerItemCard**
+3. **MarketplaceItemCard**
 
     - Displays package information
     - Handles tag interactions

@@ -33,7 +33,7 @@ class GitFetcher {
 		repoUrl: string,
 		forceRefresh = false,
 		sourceName?: string,
-	): Promise<PackageManagerRepository> {
+	): Promise<MarketplaceRepository> {
 		// Implementation details
 	}
 
@@ -113,7 +113,7 @@ class MetadataScanner {
 		directoryPath: string,
 		baseUrl?: string,
 		sourceName?: string,
-	): Promise<PackageManagerItem[]> {
+	): Promise<MarketplaceItem[]> {
 		// Implementation details
 	}
 
@@ -128,9 +128,9 @@ class MetadataScanner {
 }
 ```
 
-## PackageManagerManager
+## MarketplaceManager
 
-The PackageManagerManager is the central component that manages marketplace data, caching, and operations.
+The MarketplaceManager is the central component that manages marketplace data, caching, and operations.
 
 ### Responsibilities
 
@@ -143,9 +143,9 @@ The PackageManagerManager is the central component that manages marketplace data
 ### Implementation Details
 
 ```typescript
-class PackageManagerManager {
-	private currentItems: PackageManagerItem[] = []
-	private cache: Map<string, { data: PackageManagerRepository; timestamp: number }>
+class MarketplaceManager {
+	private currentItems: MarketplaceItem[] = []
+	private cache: Map<string, { data: MarketplaceRepository; timestamp: number }>
 	private gitFetcher: GitFetcher
 	private activeSourceOperations = new Set<string>()
 	private isMetadataScanActive = false
@@ -161,9 +161,9 @@ class PackageManagerManager {
 	/**
 	 * Get marketplace items from sources
 	 */
-	public async getPackageManagerItems(
-		sources: PackageManagerSource[],
-	): Promise<{ items: PackageManagerItem[]; errors?: string[] }> {
+	public async getMarketplaceItems(
+		sources: MarketplaceSource[],
+	): Promise<{ items: MarketplaceItem[]; errors?: string[] }> {
 		// Implementation details
 	}
 
@@ -171,9 +171,9 @@ class PackageManagerManager {
 	 * Filter items based on criteria
 	 */
 	public filterItems(
-		items: PackageManagerItem[],
+		items: MarketplaceItem[],
 		filters: { type?: ComponentType; search?: string; tags?: string[] },
-	): PackageManagerItem[] {
+	): MarketplaceItem[] {
 		// Implementation details
 	}
 
@@ -181,11 +181,11 @@ class PackageManagerManager {
 	 * Sort items by field
 	 */
 	public sortItems(
-		items: PackageManagerItem[],
-		sortBy: keyof Pick<PackageManagerItem, "name" | "author" | "lastUpdated">,
+		items: MarketplaceItem[],
+		sortBy: keyof Pick<MarketplaceItem, "name" | "author" | "lastUpdated">,
 		sortOrder: "asc" | "desc",
 		sortSubcomponents: boolean = false,
-	): PackageManagerItem[] {
+	): MarketplaceItem[] {
 		// Implementation details
 	}
 }
@@ -234,9 +234,9 @@ The filtering system provides rich functionality:
     - Support highlighting
     - Maintain match context
 
-## PackageManagerSourceValidation
+## MarketplaceSourceValidation
 
-The PackageManagerSourceValidation component handles validation of marketplace sources and their configurations.
+The MarketplaceSourceValidation component handles validation of marketplace sources and their configurations.
 
 ### Responsibilities
 
@@ -249,7 +249,7 @@ The PackageManagerSourceValidation component handles validation of marketplace s
 ### Implementation Details
 
 ```typescript
-export class PackageManagerSourceValidation {
+export class MarketplaceSourceValidation {
 	/**
 	 * Validates a marketplace source URL
 	 */
@@ -268,8 +268,8 @@ export class PackageManagerSourceValidation {
 	 * Validates sources for duplicates
 	 */
 	public static validateSourceDuplicates(
-		sources: PackageManagerSource[],
-		newSource?: PackageManagerSource,
+		sources: MarketplaceSource[],
+		newSource?: MarketplaceSource,
 	): ValidationError[] {
 		// Implementation details
 	}
@@ -309,9 +309,9 @@ The URL validation system supports:
     - Optional .git suffix
     - Subpath support
 
-## PackageManagerViewStateManager
+## MarketplaceViewStateManager
 
-The PackageManagerViewStateManager manages frontend state and synchronization with the backend.
+The MarketplaceViewStateManager manages frontend state and synchronization with the backend.
 
 ### Responsibilities
 
@@ -326,7 +326,7 @@ The PackageManagerViewStateManager manages frontend state and synchronization wi
 ### Implementation Details
 
 ```typescript
-class PackageManagerViewStateManager {
+class MarketplaceViewStateManager {
 	private state: ViewState
 	private stateChangeHandlers: Set<StateChangeHandler>
 	private fetchTimeoutId?: NodeJS.Timeout
@@ -370,15 +370,15 @@ The components work together through well-defined interfaces:
 
 1. **Repository Operations**:
 
-    - PackageManagerManager validates sources with PackageManagerSourceValidation
-    - PackageManagerManager coordinates with GitFetcher
+    - MarketplaceManager validates sources with MarketplaceSourceValidation
+    - MarketplaceManager coordinates with GitFetcher
     - GitFetcher manages repository state
     - MetadataScanner processes repository content
-    - Results flow back to PackageManagerManager
+    - Results flow back to MarketplaceManager
 
 2. **State Management**:
 
-    - PackageManagerManager maintains backend state
+    - MarketplaceManager maintains backend state
     - ViewStateManager handles UI state transitions
     - ViewStateManager processes messages
     - State changes notify subscribers
