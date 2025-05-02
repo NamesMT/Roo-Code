@@ -194,7 +194,7 @@ export class MetadataScanner {
 					// Add type field if missing but has a parent directory indicating type
 					if (!parsed.type) {
 						const parentDir = path.basename(componentDir)
-						if (parentDir === "mcp" || parentDir === "mcps") {
+						if (parentDir === "mcps") {
 							parsed.type = "mcp"
 						}
 					}
