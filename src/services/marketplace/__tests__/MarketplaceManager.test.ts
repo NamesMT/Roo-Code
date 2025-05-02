@@ -5,7 +5,7 @@ import { GitFetcher } from "../GitFetcher"
 import * as path from "path"
 import * as vscode from "vscode"
 
-describe("PackageManagerManager", () => {
+describe("MarketplaceManager", () => {
 	describe("filterItems", () => {
 		// Create a mock context with required properties
 		const mockContext = {
@@ -111,14 +111,6 @@ describe("PackageManagerManager", () => {
 	})
 
 	let manager: MarketplaceManager
-	let metadataScanner: MetadataScanner
-
-	beforeAll(async () => {
-		// Load real data from the template
-		const templatePath = path.resolve(__dirname, "../../../../marketplace-template")
-		metadataScanner = new MetadataScanner()
-		await metadataScanner.scanDirectory(templatePath, "https://example.com")
-	})
 
 	beforeEach(() => {
 		const context = {
@@ -543,53 +535,6 @@ describe("PackageManagerManager", () => {
 				},
 			})
 		})
-	})
-
-	// This test was skipped because it depends on the actual content of the marketplace-template
-	// which may change over time
-	it("should find data validator in marketplace-template", async () => {
-		// Load real data from the template
-		const templatePath = path.resolve(__dirname, "../../../../marketplace-template")
-		const scanner = new MetadataScanner()
-		const items = await scanner.scanDirectory(templatePath, "https://example.com")
-
-		// Test 1: Search for "data validator" (lowercase)
-		const filtered1 = manager.filterItems(items, { search: "data validator" })
-
-		// Verify we find the Data Validator component
-		expect(filtered1.length).toBeGreaterThan(0)
-
-		// Find the Data Validator component in the filtered results
-		let foundDataValidator1 = false
-		for (const item of filtered1) {
-			if (item.items) {
-				for (const subItem of item.items) {
-					if (subItem.metadata?.name === "Data Validator") {
-						foundDataValidator1 = true
-						break
-					}
-				}
-			}
-		}
-		expect(foundDataValidator1).toBe(true)
-
-		// Test 2: Search for "DATA VALIDATOR" (uppercase)
-		const filtered2 = manager.filterItems(items, { search: "DATA VALIDATOR" })
-
-		// Verify we find the Data Validator component
-		expect(filtered2.length).toBeGreaterThan(0)
-
-		// Test 3: Search for "validator" (partial match)
-		const filtered3 = manager.filterItems(items, { search: "validator" })
-
-		// Verify we find the Data Validator component
-		expect(filtered3.length).toBeGreaterThan(0)
-
-		// Test 4: Search for "data valid" (partial match)
-		const filtered4 = manager.filterItems(items, { search: "data valid" })
-
-		// Verify we find the Data Validator component
-		expect(filtered4.length).toBeGreaterThan(0)
 	})
 })
 
