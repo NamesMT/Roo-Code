@@ -134,6 +134,9 @@ export interface WebviewMessage {
 		| "repositoryRefreshComplete"
 		| "openExternal"
 		| "setHistoryPreviewCollapsed"
+		| "submitMarketplaceParameters"
+		| "cancelMarketplaceInstall"
+		| "openMarketplaceInstallSidebarWithConfig" // New message type
 	text?: string
 	disabled?: boolean
 	askResponse?: ClineAskResponse
@@ -166,6 +169,7 @@ export interface WebviewMessage {
 	mpInstallOptions?: InstallMarketplaceItemOptions
 	hasSystemPromptOverride?: boolean
 	historyPreviewCollapsed?: boolean
+	config?: Record<string, any> // Add config to the payload
 }
 
 export const checkoutDiffPayloadSchema = z.object({
@@ -185,4 +189,23 @@ export const checkoutRestorePayloadSchema = z.object({
 
 export type CheckpointRestorePayload = z.infer<typeof checkoutRestorePayloadSchema>
 
-export type WebViewMessagePayload = CheckpointDiffPayload | CheckpointRestorePayload
+import { marketplaceItemSchema } from "../services/marketplace/schemas"
+
+export const submitMarketplaceParametersPayloadSchema = z.object({
+	item: marketplaceItemSchema.strict(),
+	parameters: z.record(z.string(), z.any()),
+})
+
+export type SubmitMarketplaceParametersPayload = z.infer<typeof submitMarketplaceParametersPayloadSchema>
+
+export const cancelMarketplaceInstallPayloadSchema = z.object({
+	itemId: z.string(),
+})
+
+export type CancelMarketplaceInstallPayload = z.infer<typeof cancelMarketplaceInstallPayloadSchema>
+
+export type WebViewMessagePayload =
+	| CheckpointDiffPayload
+	| CheckpointRestorePayload
+	| SubmitMarketplaceParametersPayload
+	| CancelMarketplaceInstallPayload

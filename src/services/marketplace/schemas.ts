@@ -115,3 +115,63 @@ export function validateAnyMetadata(data: unknown) {
 
 	throw new Error("Invalid metadata: must be an object")
 }
+
+/**
+ * Schema for a single marketplace item parameter
+ */
+export const parameterSchema = z.record(z.string(), z.any())
+
+/**
+ * Schema for a marketplace item
+ */
+export const marketplaceItemSchema = baseMetadataSchema.extend({
+	type: componentTypeSchema,
+	url: z.string(),
+	repoUrl: z.string(),
+	sourceName: z.string().optional(),
+	lastUpdated: z.string().optional(),
+	defaultBranch: z.string().optional(),
+	path: z.string().optional(),
+	items: z
+		.array(
+			z.object({
+				type: componentTypeSchema,
+				path: z.string(),
+				metadata: componentMetadataSchema.optional(),
+				lastUpdated: z.string().optional(),
+				matchInfo: z
+					.object({
+						// Assuming MatchInfo is an object, adjust if needed
+						matched: z.boolean(),
+						matchReason: z
+							.object({
+								nameMatch: z.boolean().optional(),
+								descriptionMatch: z.boolean().optional(),
+								tagMatch: z.boolean().optional(),
+								typeMatch: z.boolean().optional(),
+								hasMatchingSubcomponents: z.boolean().optional(),
+							})
+							.optional(),
+					})
+					.optional(),
+			}),
+		)
+		.optional(),
+	matchInfo: z
+		.object({
+			// Assuming MatchInfo is an object, adjust if needed
+			matched: z.boolean(),
+			matchReason: z
+				.object({
+					nameMatch: z.boolean().optional(),
+					descriptionMatch: z.boolean().optional(),
+					tagMatch: z.boolean().optional(),
+					typeMatch: z.boolean().optional(),
+					hasMatchingSubcomponents: z.boolean().optional(),
+				})
+				.optional(),
+		})
+		.optional(),
+	parameters: z.record(z.string(), z.any()).optional(),
+	version: z.string().optional(), // Override version to make it optional
+})
