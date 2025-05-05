@@ -1,25 +1,29 @@
 import React, { useState } from "react"
 import { VSCodeButton, VSCodeTextField, VSCodeCheckbox } from "@vscode/webview-ui-toolkit/react"
 import { MarketplaceItem } from "../../../../src/services/marketplace/types"
-import { RocketConfig } from "config-rocket" // Import RocketConfig type
+import { RocketConfig } from "config-rocket"
 
 interface MarketplaceInstallSidebarProps {
-	item: MarketplaceItem | null
+	item: MarketplaceItem
 	config: RocketConfig
-	isVisible?: boolean
 	onClose?: () => void
 	onSubmit?: (item: MarketplaceItem, parameters: Record<string, any>) => void
 }
 
-const InstallSidebar: React.FC<MarketplaceInstallSidebarProps> = ({ item, config, isVisible, onClose, onSubmit }) => {
-	const [userParameters, setUserParameters] = useState<Record<string, any>>({})
-	if (!isVisible || !item) return null
+const InstallSidebar: React.FC<MarketplaceInstallSidebarProps> = ({ item, config, onClose, onSubmit }) => {
+	const initialUserParameters = config.parameters!.reduce(
+		(acc, param) => {
+			if (param.resolver.operation === "prompt")
+				acc[param.id] = param.resolver.initial ?? (param.resolver.type === "confirm" ? true : "")
+
+			return acc
+		},
+		{} as Record<string, any>,
+	)
+	const [userParameters, setUserParameters] = useState<Record<string, any>>(initialUserParameters)
 
 	const handleParameterChange = (name: string, value: any) => {
-		setUserParameters({
-			...userParameters,
-			[name]: value,
-		})
+		setUserParameters({ ...userParameters, [name]: value })
 	}
 
 	const handleSubmit = () => {
@@ -39,55 +43,35 @@ const InstallSidebar: React.FC<MarketplaceInstallSidebarProps> = ({ item, config
 				<h2 className="text-xl font-bold mb-4">Install {item.name}</h2>
 				<div className="flex-grow overflow-y-auto space-y-4">
 					{config.parameters?.map((param) => {
-						const paramName = param.id
-						const resolver = param.resolver
+						// Only render prompt parameters
+						if (param.resolver.operation !== "prompt") return null
 
-						// Only render prompt parameters that have a defined value (either user input or derived)
-						if (resolver.operation === "prompt") {
-							const paramValue =
-								userParameters[paramName] !== undefined ? userParameters[paramName] : resolver.initial
-							if (paramValue === undefined) {
-								// If no user input and no initial value, don't render
-								return null
-							}
-
-							return (
-								<div key={paramName} className="flex flex-col">
-									<label htmlFor={paramName} className="text-sm font-semibold mb-1">
-										{resolver.label || paramName}{" "}
-										{/* Use label from resolver if available, otherwise name */}
-									</label>
-									{/* Render input based on resolver.type */}
-									{resolver.type === "text" && (
-										<VSCodeTextField
-											id={paramName}
-											value={
-												userParameters[paramName] !== undefined
-													? userParameters[paramName]
-													: resolver.initial || ""
-											}
-											onChange={(e) =>
-												handleParameterChange(paramName, (e.target as HTMLInputElement).value)
-											}
-											className="w-full"></VSCodeTextField>
-									)}
-									{resolver.type === "confirm" && (
-										<VSCodeCheckbox
-											id={paramName}
-											checked={
-												userParameters[paramName] !== undefined
-													? userParameters[paramName]
-													: resolver.initial || false
-											}
-											onChange={(e) =>
-												handleParameterChange(paramName, (e.target as HTMLInputElement).checked)
-											}></VSCodeCheckbox>
-									)}
-								</div>
-							)
-						}
-
-						return null
+						return (
+							<div key={param.id} className="flex flex-col">
+								<label htmlFor={param.id} className="text-sm font-semibold mb-1">
+									{param.resolver.label || param.id}{" "}
+									{/* Use label from resolver if available, otherwise name */}
+								</label>
+								{/* Render input based on param.resolver.type */}
+								{param.resolver.type === "text" && (
+									<VSCodeTextField
+										id={param.id}
+										value={userParameters[param.id]}
+										onChange={(e) =>
+											handleParameterChange(param.id, (e.target as HTMLInputElement).value)
+										}
+										className="w-full"></VSCodeTextField>
+								)}
+								{param.resolver.type === "confirm" && (
+									<VSCodeCheckbox
+										id={param.id}
+										checked={userParameters[param.id]}
+										onChange={(e) =>
+											handleParameterChange(param.id, (e.target as HTMLInputElement).checked)
+										}></VSCodeCheckbox>
+								)}
+							</div>
+						)
 					})}
 				</div>
 				<div className="flex gap-2 mt-4">

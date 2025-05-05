@@ -18,7 +18,7 @@ export const baseMetadataSchema = z.object({
 /**
  * Component type validation
  */
-export const MarketplaceItemTypeSchema = z.enum(["mode", "prompt", "package", "mcp"] as const)
+export const marketplaceItemTypeSchema = z.enum(["mode", "prompt", "package", "mcp"] as const)
 
 /**
  * Repository metadata schema
@@ -29,14 +29,14 @@ export const repositoryMetadataSchema = baseMetadataSchema
  * Component metadata schema
  */
 export const componentMetadataSchema = baseMetadataSchema.extend({
-	type: MarketplaceItemTypeSchema,
+	type: marketplaceItemTypeSchema,
 })
 
 /**
  * External item reference schema
  */
 export const externalItemSchema = z.object({
-	type: MarketplaceItemTypeSchema,
+	type: marketplaceItemTypeSchema,
 	path: z.string().min(1, "Path is required"),
 })
 
@@ -125,7 +125,7 @@ export const parameterSchema = z.record(z.string(), z.any())
  * Schema for a marketplace item
  */
 export const marketplaceItemSchema = baseMetadataSchema.extend({
-	type: componentTypeSchema,
+	type: marketplaceItemTypeSchema,
 	url: z.string(),
 	repoUrl: z.string(),
 	sourceName: z.string().optional(),
@@ -135,7 +135,7 @@ export const marketplaceItemSchema = baseMetadataSchema.extend({
 	items: z
 		.array(
 			z.object({
-				type: componentTypeSchema,
+				type: marketplaceItemTypeSchema,
 				path: z.string(),
 				metadata: componentMetadataSchema.optional(),
 				lastUpdated: z.string().optional(),

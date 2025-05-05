@@ -25,13 +25,17 @@ const MarketplaceView: React.FC<MarketplaceViewProps> = ({ stateManager }) => {
 
 	const [tagSearch, setTagSearch] = useState("")
 	const [isTagInputActive, setIsTagInputActive] = useState(false)
-	const [showInstallSidebar, setShowInstallSidebar] = useState(false)
-	const [installItem, setInstallItem] = useState<MarketplaceItem | null>(null)
-	const [config, setConfig] = useState<RocketConfig>({})
+	const [showInstallSidebar, setShowInstallSidebar] = useState<
+		| {
+				item: MarketplaceItem
+				config: RocketConfig
+		  }
+		| false
+	>(false)
 
 	const handleInstallSubmit = (item: MarketplaceItem, parameters: Record<string, any>) => {
 		vscode.postMessage({
-			type: "submitMarketplaceParameters",
+			type: "installMarketplaceItemWithParameters",
 			payload: { item, parameters },
 		})
 		setShowInstallSidebar(false)
@@ -41,23 +45,10 @@ const MarketplaceView: React.FC<MarketplaceViewProps> = ({ stateManager }) => {
 		(e: MessageEvent) => {
 			const message: ExtensionMessage = e.data
 			if (message.type === "openMarketplaceInstallSidebarWithConfig") {
-				setShowInstallSidebar(true)
-				setInstallItem(message.payload.item)
-				setConfig(message.payload.config)
-			} else if (message.type === "openMarketplaceInstallSidebar") {
-				// Keep old message type for compatibility during transition
-				setShowInstallSidebar(true)
-				setInstallItem(message.payload.item)
-				// Assuming old message type still sends parameters, but we'll prefer config if available
-				if (message.payload.parameters) {
-					// We don't have a dedicated state for parameters in MarketplaceView anymore,
-					// InstallSidebar will manage user input based on config.
-					// We could potentially initialize InstallSidebar's internal state with these parameters
-					// if needed for some reason, but for this task, we only need to pass the config.
-				}
+				setShowInstallSidebar({ item: message.payload.item, config: message.payload.config })
 			}
 		},
-		[setShowInstallSidebar, setInstallItem, setConfig], // Add setConfig to dependencies
+		[setShowInstallSidebar],
 	)
 
 	useEvent("message", onMessage)
@@ -359,13 +350,15 @@ const MarketplaceView: React.FC<MarketplaceViewProps> = ({ stateManager }) => {
 					)}
 				</TabContent>
 			</Tab>
-			<InstallSidebar
-				isVisible={showInstallSidebar}
-				onClose={() => setShowInstallSidebar(false)}
-				onSubmit={handleInstallSubmit}
-				item={installItem}
-				config={config}
-			/>
+
+			{showInstallSidebar && (
+				<InstallSidebar
+					onClose={() => setShowInstallSidebar(false)}
+					onSubmit={handleInstallSubmit}
+					item={showInstallSidebar.item}
+					config={showInstallSidebar.config}
+				/>
+			)}
 		</>
 	)
 }

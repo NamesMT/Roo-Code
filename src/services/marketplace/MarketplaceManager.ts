@@ -14,12 +14,7 @@ import {
 import { getUserLocale } from "./utils"
 import { GlobalFileNames } from "../../../src/shared/globalFileNames"
 import { assertsMpContext, createHookable, MarketplaceContext, registerMarketplaceHooks } from "roo-rocket"
-import {
-	assertsBinarySha256,
-	unpackFromUint8,
-	uint8IsConfigPackWithParameters,
-	extractRocketConfigFromUint8,
-} from "config-rocket/cli"
+import { assertsBinarySha256, unpackFromUint8, extractRocketConfigFromUint8 } from "config-rocket/cli"
 import { getPanel } from "../../activate/registerCommands"
 
 /**
@@ -578,8 +573,8 @@ export class MarketplaceManager {
 		}
 	}
 
-	async installMarketplaceItem(item: MarketplaceItem, options?: InstallMarketplaceItemOptions) {
-		const { target = "project", parameters: userParameters = {} } = options || {}
+	async installMarketplaceItem(item: MarketplaceItem, options?: InstallMarketplaceItemOptions): Promise<void | any> {
+		const { target = "project", parameters } = options || {}
 
 		vscode.window.showInformationMessage(`Installing item: "${item.name}"`)
 
@@ -605,57 +600,63 @@ export class MarketplaceManager {
 							mode: GlobalFileNames.customModes,
 						},
 					}
-
 		assertsMpContext(mpContext)
 
 		const binaryUint8 = await fetchBinary(item.binaryUrl)
+
+		// `parameters` only exists in flows where we already check everything and then requires parameters input
+		// so we can optimize and skip the latter checks
+		if (parameters) return await _doInstall()
+
+		// Check binary integrity
 		await assertsBinarySha256(binaryUint8, item.binaryHash)
 
-		// Always extract config and open the parameter adjustment UI if the binary is configurable.
-		const isConfigWithParameters = await uint8IsConfigPackWithParameters(binaryUint8)
-		const config = isConfigWithParameters ? await extractRocketConfigFromUint8(binaryUint8) : undefined
+		// Extract config and check if it has prompt parameters.
+		const config = await extractRocketConfigFromUint8(binaryUint8)
+		const configHavePromptParameters = config?.parameters?.some((param) => param.resolver.operation === "prompt")
 
-		if (config && Object.keys(userParameters).length === 0) {
-			vscode.window.showInformationMessage(`"${item.name}" is configurable, opening parameter adjustment UI...`)
+		if (configHavePromptParameters) {
+			vscode.window.showInformationMessage(`"${item.name}" is configurable, opening UI form...`)
 
 			const panel = getPanel()
 			if (panel) {
 				panel.webview.postMessage({
-					type: "openMarketplaceInstallSidebarWithConfig", // Use the new message type
+					type: "openMarketplaceInstallSidebarWithConfig",
 					payload: {
 						item,
-						config, // Pass config instead of parameters
+						config,
 					},
 				})
 			} else {
-				vscode.window.showErrorMessage("Could not open parameter adjustment UI: Webview panel not found.")
+				vscode.window.showErrorMessage("Could not open UI form: Webview panel not found.")
 			}
 			return false // Stop installation process here, wait for parameters from frontend
 		}
 
-		// If parameters are provided (either initially or from frontend), proceed with installation
-		// Create a custom hookable instance to support global installations
-		const customHookable = createHookable()
+		await _doInstall()
+		async function _doInstall() {
+			// Create a custom hookable instance to support global installations
+			const customHookable = createHookable()
+			registerMarketplaceHooks(customHookable, mpContext)
 
-		customHookable.hook("onParameter", ({ parameter, resolvedParameters }) => {
-			if (parameter.id in userParameters) {
-				resolvedParameters[parameter.id] = userParameters[parameter.id as keyof typeof userParameters]
-			}
-		})
+			// Register hook to set parameters if provided
+			if (parameters)
+				customHookable.hook("onParameter", ({ parameter, resolvedParameters }) => {
+					if (parameter.id in parameters)
+						return (resolvedParameters[parameter.id] = parameters[parameter.id as keyof typeof parameters])
 
-		// Assuming registerMarketplaceHooks or a hook it registers will handle the parameters
-		// The parameters are available in the 'options' object passed to installMarketplaceItem
-		registerMarketplaceHooks(customHookable, mpContext)
+					// If there is unresolved prompt operation, throw error or else it would hang the installation
+					if (parameter.resolver.operation === "prompt") throw new Error("Unexpected prompt operation")
+				})
 
-		vscode.window.showInformationMessage(`"${item.name}" is installing...`) // Updated message
-		await unpackFromUint8(binaryUint8, {
-			hookable: customHookable,
-			nonAssemblyBehavior: true,
-			cwd,
-		})
-		vscode.window.showInformationMessage(`"${item.name}" installed successfully`)
-
-		return true
+			vscode.window.showInformationMessage(`"${item.name}" is installing...`)
+			await unpackFromUint8(binaryUint8, {
+				hookable: customHookable,
+				nonAssemblyBehavior: true,
+				cwd,
+			})
+			vscode.window.showInformationMessage(`"${item.name}" installed successfully`)
+		}
 	}
 
 	/**

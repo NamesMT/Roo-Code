@@ -134,7 +134,7 @@ export interface WebviewMessage {
 		| "repositoryRefreshComplete"
 		| "openExternal"
 		| "setHistoryPreviewCollapsed"
-		| "submitMarketplaceParameters"
+		| "installMarketplaceItemWithParameters"
 		| "cancelMarketplaceInstall"
 		| "openMarketplaceInstallSidebarWithConfig" // New message type
 	text?: string
@@ -191,12 +191,14 @@ export type CheckpointRestorePayload = z.infer<typeof checkoutRestorePayloadSche
 
 import { marketplaceItemSchema } from "../services/marketplace/schemas"
 
-export const submitMarketplaceParametersPayloadSchema = z.object({
+export const installMarketplaceItemWithParametersPayloadSchema = z.object({
 	item: marketplaceItemSchema.strict(),
 	parameters: z.record(z.string(), z.any()),
 })
 
-export type SubmitMarketplaceParametersPayload = z.infer<typeof submitMarketplaceParametersPayloadSchema>
+export type InstallMarketplaceItemWithParametersPayload = z.infer<
+	typeof installMarketplaceItemWithParametersPayloadSchema
+>
 
 export const cancelMarketplaceInstallPayloadSchema = z.object({
 	itemId: z.string(),
@@ -207,5 +209,5 @@ export type CancelMarketplaceInstallPayload = z.infer<typeof cancelMarketplaceIn
 export type WebViewMessagePayload =
 	| CheckpointDiffPayload
 	| CheckpointRestorePayload
-	| SubmitMarketplaceParametersPayload
+	| InstallMarketplaceItemWithParametersPayload
 	| CancelMarketplaceInstallPayload

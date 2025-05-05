@@ -9,12 +9,7 @@ import { changeLanguage, t } from "../../i18n"
 import { ApiConfiguration } from "../../shared/api"
 import { supportPrompt } from "../../shared/support-prompt"
 
-import {
-	checkoutDiffPayloadSchema,
-	checkoutRestorePayloadSchema,
-	WebviewMessage,
-	submitMarketplaceParametersPayloadSchema,
-} from "../../shared/WebviewMessage"
+import { checkoutDiffPayloadSchema, checkoutRestorePayloadSchema, WebviewMessage } from "../../shared/WebviewMessage"
 import { checkExistKey } from "../../shared/checkExistApiConfig"
 import { experimentDefault } from "../../shared/experiments"
 import { Terminal } from "../../integrations/terminal/Terminal"
@@ -162,32 +157,6 @@ export const webviewMessageHandler = async (
 			} else {
 				console.log(`DEBUG: marketplaceManager is undefined, skipping marketplace message handling`)
 			}
-			break
-		case "submitMarketplaceParameters":
-			if (marketplaceManager && message.payload) {
-				const result = submitMarketplaceParametersPayloadSchema.safeParse(message.payload)
-
-				if (result.success) {
-					const { item, parameters } = result.data
-
-					try {
-						await marketplaceManager.installMarketplaceItem(item, { parameters })
-					} catch (error) {
-						console.error(`Error submitting marketplace parameters: ${error}`)
-						vscode.window.showErrorMessage(`Failed to install marketplace item: ${error}`)
-					}
-				} else {
-					console.error("Invalid payload for submitMarketplaceParameters message:", message.payload)
-					vscode.window.showErrorMessage(
-						"Invalid data received for marketplace installation: Item or parameters missing.",
-					)
-				}
-			}
-			break
-		case "cancelMarketplaceInstall":
-			// Assuming cancelTask in ClineProvider is the correct way to stop the process
-			await provider.cancelTask()
-			vscode.window.showInformationMessage("Marketplace installation cancelled.")
 			break
 		case "newTask":
 			// Code that should run in response to the hello message command
@@ -1314,6 +1283,8 @@ export const webviewMessageHandler = async (
 		(message.type === "marketplaceSources" ||
 			message.type === "openExternal" ||
 			message.type === "installMarketplaceItem" ||
+			message.type === "installMarketplaceItemWithParameters" ||
+			message.type === "cancelMarketplaceInstall" ||
 			message.type === "refreshMarketplaceSource" ||
 			message.type === "filterMarketplaceItems")
 	) {
