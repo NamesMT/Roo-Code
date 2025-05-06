@@ -66,7 +66,7 @@ export const MarketplaceItemActionsMenu: React.FC<MarketplaceItemActionsMenuProp
 
 				{/* Install (Project) */}
 				{showInstallButton && (
-					<DropdownMenuItem onClick={() => handleInstall({ target: "project" })}>
+					<DropdownMenuItem className="" onClick={() => handleInstall({ target: "project" })}>
 						<Download className="mr-2 h-4 w-4" />
 						<span>{t("marketplace:items.card.installProject")}</span>
 					</DropdownMenuItem>

@@ -17,6 +17,7 @@ import { assertsMpContext, createHookable, MarketplaceContext, registerMarketpla
 import { assertsBinarySha256, unpackFromUint8, extractRocketConfigFromUint8 } from "config-rocket/cli"
 import { getPanel } from "../../activate/registerCommands"
 import { ensureSettingsDirectoryExists } from "../../utils/globalContext"
+import { InstalledMetadataManager, ItemInstalledMetadata } from "./InstalledMetadataManager"
 
 /**
  * Service for managing marketplace data
@@ -24,6 +25,8 @@ import { ensureSettingsDirectoryExists } from "../../utils/globalContext"
 export class MarketplaceManager {
 	private currentItems: MarketplaceItem[] = []
 	private static readonly CACHE_EXPIRY_MS = 3600000 // 1 hour
+
+	IMM: InstalledMetadataManager
 
 	private gitFetcher: GitFetcher
 	private cache: Map<string, { data: MarketplaceRepository; timestamp: number }> = new Map()
@@ -40,6 +43,10 @@ export class MarketplaceManager {
 			fallbackLocale: "en",
 		}
 		this.gitFetcher = new GitFetcher(context, localizationOptions)
+		this.IMM = new InstalledMetadataManager(context)
+		// Initial loading for the metadatas
+		void this.IMM.reloadProject()
+		void this.IMM.reloadGlobal()
 	}
 
 	/**
@@ -575,6 +582,9 @@ export class MarketplaceManager {
 	}
 
 	async installMarketplaceItem(item: MarketplaceItem, options?: InstallMarketplaceItemOptions): Promise<void | any> {
+		// Temporary added due to hosting with _doInstall
+		const _IMM = this.IMM
+
 		const { target = "project", parameters } = options || {}
 
 		vscode.window.showInformationMessage(`Installing item: "${item.name}"`)
@@ -634,7 +644,7 @@ export class MarketplaceManager {
 			return false // Stop installation process here, wait for parameters from frontend
 		}
 
-		await _doInstall()
+		return await _doInstall()
 		async function _doInstall() {
 			// Create a custom hookable instance to support global installations
 			const customHookable = createHookable()
@@ -650,13 +660,45 @@ export class MarketplaceManager {
 					if (parameter.resolver.operation === "prompt") throw new Error("Unexpected prompt operation")
 				})
 
+			// Register hooks to build `ItemInstalledMetadata`
+			const itemInstalledMetadata: ItemInstalledMetadata = {
+				version: item.version,
+				modes: [],
+				mcps: [],
+				files: [],
+			}
+			customHookable.hook("onFileOutput", ({ filePath, data }) => {
+				if (filePath.endsWith("/.roomodes")) {
+					const parsedData = JSON.parse(data)
+					if (parsedData?.customModes?.length) {
+						parsedData.customModes.forEach((mode: any) => {
+							itemInstalledMetadata.modes?.push(mode.slug)
+						})
+					}
+				} else if (filePath.endsWith("/.roo/mcp.json")) {
+					const parsedData = JSON.parse(data)
+					const mcpSlugs = Object.keys(parsedData?.mcpServers ?? {})
+					if (mcpSlugs.length) {
+						mcpSlugs.forEach((mcpSlug: any) => {
+							itemInstalledMetadata.mcps?.push(mcpSlug)
+						})
+					}
+				} else {
+					itemInstalledMetadata.files?.push(path.relative(cwd, filePath))
+				}
+			})
+
 			vscode.window.showInformationMessage(`"${item.name}" is installing...`)
 			await unpackFromUint8(binaryUint8, {
 				hookable: customHookable,
 				nonAssemblyBehavior: true,
 				cwd,
+			}).then(() => {
+				_IMM.addInstalledItem("project", item.id, itemInstalledMetadata)
 			})
 			vscode.window.showInformationMessage(`"${item.name}" installed successfully`)
+
+			return "$INSTALLED"
 		}
 	}
 }

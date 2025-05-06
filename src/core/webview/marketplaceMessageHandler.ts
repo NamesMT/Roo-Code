@@ -213,7 +213,9 @@ export async function handleMarketplaceMessages(
 		case "installMarketplaceItem": {
 			if (message.mpItem) {
 				try {
-					await marketplaceManager.installMarketplaceItem(message.mpItem, message.mpInstallOptions)
+					await marketplaceManager
+						.installMarketplaceItem(message.mpItem, message.mpInstallOptions)
+						.then(async (r) => r === "$INSTALLED" && (await provider.postStateToWebview()))
 				} catch (error) {
 					vscode.window.showErrorMessage(
 						`Failed to install item "${message.mpItem.name}":\n${error instanceof Error ? error.message : String(error)}`,
@@ -232,7 +234,9 @@ export async function handleMarketplaceMessages(
 					const { item, parameters } = result.data
 
 					try {
-						await marketplaceManager.installMarketplaceItem(item, { parameters })
+						await marketplaceManager
+							.installMarketplaceItem(item, { parameters })
+							.then(async (r) => r === "$INSTALLED" && (await provider.postStateToWebview()))
 					} catch (error) {
 						console.error(`Error submitting marketplace parameters: ${error}`)
 						vscode.window.showErrorMessage(
