@@ -138,7 +138,7 @@ export interface LocalizationOptions {
 
 export interface InstallMarketplaceItemOptions {
 	/**
-	 * Specify the installation target
+	 * Specify the target scope
 	 *
 	 * @default 'project'
 	 */
@@ -147,4 +147,13 @@ export interface InstallMarketplaceItemOptions {
 	 * Parameters provided by the user for configurable marketplace items
 	 */
 	parameters?: Record<string, any>
+}
+
+export interface RemoveInstalledMarketplaceItemOptions {
+	/**
+	 * Specify the target scope
+	 *
+	 * @default 'project'
+	 */
+	target?: "global" | "project"
 }

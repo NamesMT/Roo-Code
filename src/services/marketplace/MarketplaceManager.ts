@@ -10,6 +10,7 @@ import {
 	ComponentMetadata,
 	LocalizationOptions,
 	InstallMarketplaceItemOptions,
+	RemoveInstalledMarketplaceItemOptions,
 } from "./types"
 import { getUserLocale } from "./utils"
 import { GlobalFileNames } from "../../shared/globalFileNames"
@@ -581,7 +582,22 @@ export class MarketplaceManager {
 		}
 	}
 
-	async installMarketplaceItem(item: MarketplaceItem, options?: InstallMarketplaceItemOptions): Promise<void | any> {
+	/**
+	 * Resolves the cwd for the specified target scope
+	 */
+	async resolveScopeCwd(target: InstallMarketplaceItemOptions["target"]): Promise<string> {
+		if (target === "project" && !vscode.workspace.workspaceFolders?.length)
+			throw new Error("Cannot load current workspace folder")
+
+		return target === "project"
+			? vscode.workspace.workspaceFolders![0].uri.fsPath
+			: await ensureSettingsDirectoryExists(this.context)
+	}
+
+	async installMarketplaceItem(
+		item: MarketplaceItem,
+		options?: InstallMarketplaceItemOptions,
+	): Promise<"$COMMIT" | any> {
 		// Temporary added due to hosting with _doInstall
 		const _IMM = this.IMM
 
@@ -589,16 +605,9 @@ export class MarketplaceManager {
 
 		vscode.window.showInformationMessage(`Installing item: "${item.name}"`)
 
-		if (target === "project" && !vscode.workspace.workspaceFolders?.length)
-			return vscode.window.showErrorMessage("Cannot load current workspace folder")
+		const cwd = await this.resolveScopeCwd(target)
 
-		const cwd =
-			target === "project"
-				? vscode.workspace.workspaceFolders![0].uri.fsPath
-				: await ensureSettingsDirectoryExists(this.context)
-
-		if (!item.binaryUrl || !item.binaryHash)
-			return vscode.window.showErrorMessage("Item does not have a binary URL or hash")
+		if (!item.binaryUrl || !item.binaryHash) throw new Error("Item does not have a binary URL or hash.")
 
 		// Creates `mpContext` to delegate context to `roo-rocket`
 		const mpContext: MarketplaceContext =
@@ -613,6 +622,7 @@ export class MarketplaceManager {
 					}
 		assertsMpContext(mpContext)
 
+		// Fetch the binary
 		const binaryUint8 = await fetchBinary(item.binaryUrl)
 
 		// `parameters` only exists in flows where we already check everything and then requires parameters input
@@ -625,7 +635,6 @@ export class MarketplaceManager {
 		// Extract config and check if it has prompt parameters.
 		const config = await extractRocketConfigFromUint8(binaryUint8)
 		const configHavePromptParameters = config?.parameters?.some((param) => param.resolver.operation === "prompt")
-
 		if (configHavePromptParameters) {
 			vscode.window.showInformationMessage(`"${item.name}" is configurable, opening UI form...`)
 
@@ -639,7 +648,7 @@ export class MarketplaceManager {
 					},
 				})
 			} else {
-				vscode.window.showErrorMessage("Could not open UI form: Webview panel not found.")
+				throw new Error("Could not open UI form: Webview panel not found.")
 			}
 			return false // Stop installation process here, wait for parameters from frontend
 		}
@@ -688,7 +697,7 @@ export class MarketplaceManager {
 				}
 			})
 
-			vscode.window.showInformationMessage(`"${item.name}" is installing...`)
+			vscode.window.showInformationMessage(`"${item.name}" is unpacking...`)
 			await unpackFromUint8(binaryUint8, {
 				hookable: customHookable,
 				nonAssemblyBehavior: true,
@@ -698,7 +707,63 @@ export class MarketplaceManager {
 			})
 			vscode.window.showInformationMessage(`"${item.name}" installed successfully`)
 
-			return "$INSTALLED"
+			return "$COMMIT"
+		}
+	}
+
+	async removeInstalledMarketplaceItem(
+		item: MarketplaceItem,
+		options?: RemoveInstalledMarketplaceItemOptions,
+	): Promise<"$COMMIT" | any> {
+		const { target = "project" } = options || {}
+
+		vscode.window.showInformationMessage(`Removing item: "${item.name}"`)
+
+		const cwd = await this.resolveScopeCwd(target)
+		const modesFilePath = path.join(cwd, target === "project" ? ".roomodes" : GlobalFileNames.customModes)
+		const mcpsFilePath = path.join(cwd, target === "project" ? ".roo/mcp.json" : GlobalFileNames.mcpSettings)
+
+		const itemInstalledMetadata = this.IMM.getInstalledItem(target, item.id)
+		if (itemInstalledMetadata) {
+			if (itemInstalledMetadata.modes) {
+				if (await fs.access(modesFilePath).catch(() => true))
+					vscode.window.showWarningMessage(`"${item.name}": modes file not found`)
+				else {
+					const parsedModesFile = JSON.parse(await fs.readFile(modesFilePath, "utf-8"))
+					parsedModesFile.customModes = parsedModesFile.customModes.filter(
+						(m: any) => !itemInstalledMetadata.modes!.includes(m.slug),
+					)
+					await fs.writeFile(modesFilePath, JSON.stringify(parsedModesFile, null, 2), "utf-8")
+				}
+			}
+			if (itemInstalledMetadata.mcps) {
+				if (await fs.access(mcpsFilePath).catch(() => true))
+					vscode.window.showWarningMessage(`"${item.name}": mcps file not found`)
+				else {
+					const parsedMcpsFile = JSON.parse(await fs.readFile(mcpsFilePath, "utf-8"))
+					itemInstalledMetadata.mcps.forEach((mcp) => {
+						delete parsedMcpsFile.mcpServers[mcp]
+					})
+					await fs.writeFile(mcpsFilePath, JSON.stringify(parsedMcpsFile, null, 2), "utf-8")
+				}
+			}
+			if (itemInstalledMetadata.files) {
+				for (const file of itemInstalledMetadata.files) {
+					try {
+						await fs.rm(path.join(cwd, file))
+					} catch (error) {
+						vscode.window.showWarningMessage(
+							`"${item.name}": failed to remove file "${file}": ${error instanceof Error ? error.message : String(error)}`,
+						)
+					}
+				}
+			}
+
+			this.IMM.removeInstalledItem(target, item.id)
+			vscode.window.showInformationMessage(`"${item.name}" removed successfully`)
+			return "$COMMIT"
+		} else {
+			throw new Error(`is not installed in scope "${target}"`)
 		}
 	}
 }

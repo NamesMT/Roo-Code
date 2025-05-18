@@ -176,7 +176,7 @@ export const MarketplaceItemCard: React.FC<MarketplaceItemCardProps> = ({
 					)}
 				</div>
 
-				<MarketplaceItemActionsMenu item={item} />
+				<MarketplaceItemActionsMenu item={item} installed={installed} />
 			</div>
 
 			{item.type === "package" && (
