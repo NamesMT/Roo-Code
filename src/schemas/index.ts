@@ -74,6 +74,8 @@ export const commandIds = [
 
 	"focusInput",
 	"acceptInput",
+
+	"marketplaceButtonClicked",
 ] as const
 
 export type CommandId = (typeof commandIds)[number]
@@ -799,6 +801,15 @@ export const globalSettingsSchema = z.object({
 	customModePrompts: customModePromptsSchema.optional(),
 	customSupportPrompts: customSupportPromptsSchema.optional(),
 	enhancementApiConfigId: z.string().optional(),
+	marketplaceSources: z
+		.array(
+			z.object({
+				url: z.string(),
+				name: z.string().optional(),
+				enabled: z.boolean(),
+			}),
+		)
+		.optional(),
 	historyPreviewCollapsed: z.boolean().optional(),
 })
 
@@ -879,6 +890,7 @@ const globalSettingsRecord: GlobalSettingsRecord = {
 	customSupportPrompts: undefined,
 	enhancementApiConfigId: undefined,
 	cachedChromeHostUrl: undefined,
+	marketplaceSources: undefined,
 	historyPreviewCollapsed: undefined,
 }
 
