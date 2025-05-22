@@ -14,7 +14,7 @@
 			"label": "Lọc theo loại:",
 			"all": "Tất cả các loại",
 			"mode": "Chế độ",
-			"mcp": "Máy chủ MCP",
+			"mcp server": "Máy chủ MCP",
 			"prompt": "Prompt",
 			"package": "Gói"
 		},
@@ -46,25 +46,28 @@
 		"empty": {
 			"noItems": "Không tìm thấy mục marketplace nào",
 			"withFilters": "Thử điều chỉnh bộ lọc",
-			"noSources": "Thử thêm nguồn trong tab Nguồn"
+			"noSources": "Thử thêm nguồn trong tab Nguồn",
+			"adjustFilters": "Thử điều chỉnh bộ lọc hoặc cụm từ tìm kiếm của bạn",
+			"clearAllFilters": "Xóa tất cả bộ lọc"
 		},
 		"count": "Tìm thấy {{count}} mục",
 		"components": "{{count}} thành phần",
 		"refresh": {
 			"button": "Làm mới",
-			"refreshing": "Đang làm mới..."
+			"refreshing": "Đang làm mới...",
+			"mayTakeMoment": "Việc này có thể mất một chút thời gian."
 		},
 		"card": {
 			"by": "bởi {{author}}",
 			"from": "từ {{source}}",
-			"installProject": "Cài đặt (Dự án)",
+			"installProject": "Cài đặt",
 			"installGlobal": "Cài đặt (Toàn cục)",
-			"removeProject": "Gỡ cài đặt (Dự án)",
+			"removeProject": "Gỡ cài đặt",
 			"removeGlobal": "Gỡ cài đặt (Toàn cục)",
 			"viewSource": "Xem",
-			"viewOnSource": "Xem trên {{source}}"
-		},
-		"count": "Đã tìm thấy {{count}} mục"
+			"viewOnSource": "Xem trên {{source}}",
+			"installProjectTooltip": "Cài đặt dự án"
+		}
 	},
 	"sources": {
 		"title": "Nguồn Marketplace",
@@ -93,22 +96,5 @@
 			"nonVisibleCharsName": "Tên chứa các ký tự không hiển thị.",
 			"duplicateName": "Đã có một nguồn có tên này."
 		}
-	},
-	"filters": {
-		"sources": {
-			"title": "Nguồn Marketplace",
-			"description": "Thêm hoặc quản lý nguồn cho các mục Marketplace. Mỗi nguồn là một kho Git chứa các định nghĩa mục Marketplace."
-		},
-		"tags": {
-			"clear": "Xóa {{count}} thẻ đã chọn",
-			"selected": "{{count}} thẻ đã chọn"
-		}
-	},
-	"title": "Marketplace",
-	"done": "Xong",
-	"refresh": "Làm mới",
-	"tabs": {
-		"installed": "Đã cài đặt",
-		"settings": "Cài đặt"
 	}
 }

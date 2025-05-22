@@ -13,7 +13,8 @@
 		"type": {
 			"label": "タイプでフィルター:",
 			"all": "すべてのタイプ",
-			"mode server": "MCP Server",
+			"mode": "モード",
+			"mcp server": "MCP Server",
 			"prompt": "プロンプト",
 			"package": "パッケージ"
 		},
@@ -45,25 +46,29 @@
 		"empty": {
 			"noItems": "マーケットプレイスのアイテムが見つかりません",
 			"withFilters": "フィルターを調整してみてください",
-			"noSources": "ソースタブでソースを追加してみてください"
+			"noSources": "ソースタブでソースを追加してみてください",
+			"adjustFilters": "フィルターまたは検索語を調整してみてください",
+			"clearAllFilters": "すべてのフィルターをクリア"
 		},
 		"count": "{{count}}個のアイテム",
 		"components": "{{count}}個のコンポーネント",
 		"refresh": {
 			"button": "更新",
-			"refreshing": "更新中..."
+			"refreshing": "更新中...",
+			"mayTakeMoment": "これには少し時間がかかる場合があります。"
 		},
 		"card": {
 			"by": "作者: {{author}}",
 			"from": "ソース: {{source}}",
-			"installProject": "インストール (プロジェクト)",
+			"installProject": "インストール",
 			"installGlobal": "インストール (グローバル)",
-			"removeProject": "削除 (プロジェクト)",
+			"removeProject": "削除",
 			"removeGlobal": "削除 (グローバル)",
 			"viewSource": "表示",
 			"viewOnSource": "{{source}}で表示"
 		}
 	},
+	"installProjectTooltip": "プロジェクトのインストール",
 	"sources": {
 		"title": "マーケットプレイスソース",
 		"description": "マーケットプレイスアイテムのソースを追加または管理します。各ソースは、マーケットプレイスアイテムの定義を含むGitリポジトリです。",

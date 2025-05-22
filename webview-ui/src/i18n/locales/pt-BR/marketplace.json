@@ -14,7 +14,7 @@
 			"label": "Filtrar por tipo:",
 			"all": "Todos os tipos",
 			"mode": "Modo",
-			"mcp": "Servidor MCP",
+			"mcp server": "Servidor MCP",
 			"prompt": "Prompt",
 			"package": "Pacote"
 		},
@@ -46,25 +46,28 @@
 		"empty": {
 			"noItems": "Nenhum item encontrado no marketplace",
 			"withFilters": "Tente ajustar os filtros",
-			"noSources": "Tente adicionar uma fonte na aba Fontes"
+			"noSources": "Tente adicionar uma fonte na aba Fontes",
+			"adjustFilters": "Tente ajustar seus filtros ou termos de pesquisa",
+			"clearAllFilters": "Limpar todos os filtros"
 		},
 		"count": "{{count}} itens encontrados",
 		"components": "{{count}} componentes",
 		"refresh": {
 			"button": "Atualizar",
-			"refreshing": "Atualizando..."
+			"refreshing": "Atualizando...",
+			"mayTakeMoment": "Isso pode levar um momento."
 		},
 		"card": {
 			"by": "por {{author}}",
 			"from": "de {{source}}",
-			"installProject": "Instalar (Projeto)",
+			"installProject": "Instalar",
 			"installGlobal": "Instalar (Global)",
-			"removeProject": "Remover (Projeto)",
+			"removeProject": "Remover",
 			"removeGlobal": "Remover (Global)",
 			"viewSource": "Ver",
-			"viewOnSource": "Ver no {{source}}"
-		},
-		"count": "{{count}} item{{count !== 1 ? 's' : ''}} encontrados"
+			"viewOnSource": "Ver no {{source}}",
+			"installProjectTooltip": "Instalação do projeto"
+		}
 	},
 	"sources": {
 		"title": "Fontes do Marketplace",
@@ -93,22 +96,5 @@
 			"nonVisibleCharsName": "O nome contém caracteres não visíveis.",
 			"duplicateName": "Já existe uma fonte com este nome."
 		}
-	},
-	"filters": {
-		"sources": {
-			"title": "Fontes do Marketplace",
-			"description": "Adicione ou gerencie fontes para os itens do Marketplace. Cada fonte é um repositório Git que contém definições de itens do Marketplace."
-		},
-		"tags": {
-			"clear": "Limpar {{count}} tag{{count !== 1 ? 's' : ''}} selecionada{{count !== 1 ? 's' : ''}}",
-			"selected": "{{count}} tag{{count !== 1 ? 's' : ''}} selecionada{{count !== 1 ? 's' : ''}}"
-		}
-	},
-	"title": "Marketplace",
-	"done": "Concluído",
-	"refresh": "Atualizar",
-	"tabs": {
-		"installed": "Instalado",
-		"settings": "Configurações"
 	}
 }

@@ -13,7 +13,8 @@
 		"type": {
 			"label": "Filter op type:",
 			"all": "Alle types",
-			"mode server": "MCP Server",
+			"mode": "Modus",
+			"mcp server": "MCP Server",
 			"prompt": "Prompt",
 			"package": "Pakket"
 		},
@@ -45,25 +46,29 @@
 		"empty": {
 			"noItems": "Geen marketplace items gevonden",
 			"withFilters": "Probeer je filters aan te passen",
-			"noSources": "Probeer een bron toe te voegen in het tabblad Bronnen"
+			"noSources": "Probeer een bron toe te voegen in het tabblad Bronnen",
+			"adjustFilters": "Probeer je filters of zoektermen aan te passen",
+			"clearAllFilters": "Alle filters wissen"
 		},
 		"count": "{{count}} items gevonden",
 		"components": "{{count}} componenten",
 		"refresh": {
 			"button": "Vernieuwen",
-			"refreshing": "Vernieuwen..."
+			"refreshing": "Vernieuwen...",
+			"mayTakeMoment": "Dit kan even duren."
 		},
 		"card": {
 			"by": "door {{author}}",
 			"from": "van {{source}}",
-			"installProject": "Installeren (Project)",
+			"installProject": "Installeren",
 			"installGlobal": "Installeren (Globaal)",
-			"removeProject": "Verwijderen (Project)",
+			"removeProject": "Verwijderen",
 			"removeGlobal": "Verwijderen (Globaal)",
 			"viewSource": "Bekijken",
 			"viewOnSource": "Bekijken op {{source}}"
 		}
 	},
+	"installProjectTooltip": "Projectinstallatie",
 	"sources": {
 		"title": "Marketplace bronnen",
 		"description": "Voeg bronnen voor Marketplace-items toe of beheer ze. Elke bron is een Git-repository die Marketplace-itemdefinities bevat.",

@@ -46,23 +46,27 @@
 		"empty": {
 			"noItems": "Marketplace öğesi bulunamadı",
 			"withFilters": "Filtreleri ayarlamayı deneyin",
-			"noSources": "Kaynaklar sekmesinde bir kaynak eklemeyi deneyin"
+			"noSources": "Kaynaklar sekmesinde bir kaynak eklemeyi deneyin",
+			"adjustFilters": "Filtrelerinizi veya arama terimlerinizi ayarlamayı deneyin",
+			"clearAllFilters": "Tüm filtreleri temizle"
 		},
 		"count": "{{count}} öğe bulundu",
 		"components": "{{count}} bileşen",
 		"refresh": {
 			"button": "Yenile",
-			"refreshing": "Yenileniyor..."
+			"refreshing": "Yenileniyor...",
+			"mayTakeMoment": "Bu biraz zaman alabilir."
 		},
 		"card": {
 			"by": "yazar: {{author}}",
 			"from": "kaynak: {{source}}",
-			"installProject": "Yükle (Proje)",
+			"installProject": "Yükle",
 			"installGlobal": "Yükle (Global)",
-			"removeProject": "Kaldır (Proje)",
+			"removeProject": "Kaldır",
 			"removeGlobal": "Kaldır (Global)",
 			"viewSource": "Görüntüle",
-			"viewOnSource": "{{source}} üzerinde görüntüle"
+			"viewOnSource": "{{source}} üzerinde görüntüle",
+			"installProjectTooltip": "Proje kurulumu"
 		}
 	},
 	"sources": {
@@ -92,18 +96,5 @@
 			"nonVisibleCharsName": "Ad görünmeyen karakterler içeriyor.",
 			"duplicateName": "Bu ada sahip bir kaynak zaten var."
 		}
-	},
-	"filters": {
-		"sources": {
-			"title": "Marketplace Kaynakları",
-			"description": "Marketplace öğeleri için kaynak ekleyin veya yönetin. Her kaynak, Marketplace öğe tanımlarını içeren bir Git deposudur।"
-		},
-		"tags": {
-			"clear": "{{count}} seçili etiketi temizle",
-			"selected": "{{count}} seçili etiket"
-		}
-	},
-	"title": "Marketplace",
-	"done": "Bitti",
-	"refresh": "Yenile"
+	}
 }

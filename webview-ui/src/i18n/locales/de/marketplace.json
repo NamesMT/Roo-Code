@@ -43,28 +43,32 @@
 		"generic-type": "{{type}}"
 	},
 	"items": {
-		"empty": {
-			"noItems": "Keine Marketplace-Einträge gefunden",
-			"withFilters": "Versuchen Sie, die Filter anzupassen",
-			"noSources": "Versuchen Sie, eine Quelle im Quellen-Tab hinzuzufügen"
-		},
 		"count": "{{count}} Einträge gefunden",
 		"components": "{{count}} Komponenten",
 		"refresh": {
 			"button": "Aktualisieren",
-			"refreshing": "Aktualisiere..."
+			"refreshing": "Aktualisiere...",
+			"mayTakeMoment": "Das kann einen Moment dauern..."
+		},
+		"empty": {
+			"noItems": "Keine Marketplace-Einträge gefunden",
+			"withFilters": "Versuche, deine Filter anzupassen",
+			"noSources": "Versuche, eine Quelle im Quellen-Tab hinzuzufügen",
+			"adjustFilters": "Versuche, deine Filter oder Suchbegriffe anzupassen",
+			"clearAllFilters": "Alle Filter löschen"
 		},
 		"card": {
 			"by": "von {{author}}",
 			"from": "von {{source}}",
-			"installProject": "Installieren (Projekt)",
+			"installProject": "Installieren",
 			"installGlobal": "Installieren (Global)",
-			"removeProject": "Entfernen (Projekt)",
+			"removeProject": "Entfernen",
 			"removeGlobal": "Entfernen (Global)",
 			"viewSource": "Ansehen",
 			"viewOnSource": "Auf {{source}} ansehen"
 		}
 	},
+	"installProjectTooltip": "Projektinstallation",
 	"sources": {
 		"title": "Marketplace Quellen",
 		"description": "Füge Quellen für Marketplace-Elemente hinzu oder verwalte sie. Jede Quelle ist ein Git-Repository, das Marketplace-Elementdefinitionen enthält.",

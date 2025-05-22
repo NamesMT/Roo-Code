@@ -14,7 +14,7 @@
 			"label": "按类型筛选：",
 			"all": "所有类型",
 			"mode": "模式",
-			"mcp": "MCP 服务器",
+			"mcp server": "MCP 服务器",
 			"prompt": "提示",
 			"package": "包"
 		},
@@ -46,25 +46,28 @@
 		"empty": {
 			"noItems": "未找到市场项目",
 			"withFilters": "尝试调整筛选条件",
-			"noSources": "尝试在来源标签页中添加来源"
+			"noSources": "尝试在来源标签页中添加来源",
+			"adjustFilters": "尝试调整你的筛选器或搜索词",
+			"clearAllFilters": "清除所有筛选器"
 		},
 		"count": "找到 {{count}} 个项目",
 		"components": "{{count}} 个组件",
 		"refresh": {
 			"button": "刷新",
-			"refreshing": "正在刷新..."
+			"refreshing": "正在刷新...",
+			"mayTakeMoment": "这可能需要一些时间。"
 		},
 		"card": {
 			"by": "作者：{{author}}",
 			"from": "来自：{{source}}",
-			"installProject": "安装（项目）",
+			"installProject": "安装",
 			"installGlobal": "安装（全局）",
 			"removeProject": "移除（项目）",
 			"removeGlobal": "移除（全局）",
 			"viewSource": "查看",
-			"viewOnSource": "在 {{source}} 上查看"
-		},
-		"count": "找到 {{count}} 个项目"
+			"viewOnSource": "在 {{source}} 上查看",
+			"installProjectTooltip": "项目安装"
+		}
 	},
 	"sources": {
 		"title": "市场来源",
@@ -93,22 +96,5 @@
 			"nonVisibleCharsName": "名称包含不可见字符。",
 			"duplicateName": "具有此名称的来源已存在。"
 		}
-	},
-	"filters": {
-		"sources": {
-			"title": "市场来源",
-			"description": "添加或管理 Marketplace 项目的来源。每个来源都是包含 Marketplace 项目定义的 Git 存储库。"
-		},
-		"tags": {
-			"clear": "清除 {{count}} 个所选标签",
-			"selected": "{{count}} 个所选标签"
-		}
-	},
-	"title": "市场",
-	"done": "完成",
-	"refresh": "刷新",
-	"tabs": {
-		"installed": "已安装",
-		"settings": "设置"
 	}
 }

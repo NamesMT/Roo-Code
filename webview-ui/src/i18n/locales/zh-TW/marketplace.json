@@ -14,7 +14,7 @@
 			"label": "依類型篩選：",
 			"all": "所有類型",
 			"mode": "模式",
-			"mcp": "MCP 伺服器",
+			"mcp server": "MCP 伺服器",
 			"prompt": "提示",
 			"package": "套件"
 		},
@@ -46,25 +46,28 @@
 		"empty": {
 			"noItems": "未找到市集項目",
 			"withFilters": "嘗試調整篩選條件",
-			"noSources": "嘗試在來源分頁中新增來源"
+			"noSources": "嘗試在來源分頁中新增來源",
+			"adjustFilters": "嘗試調整你的篩選器或搜尋詞",
+			"clearAllFilters": "清除所有篩選器"
 		},
 		"count": "找到 {{count}} 個項目",
 		"components": "{{count}} 個元件",
 		"refresh": {
 			"button": "重新整理",
-			"refreshing": "重新整理中..."
+			"refreshing": "重新整理中...",
+			"mayTakeMoment": "這可能需要一些時間。"
 		},
 		"card": {
 			"by": "作者：{{author}}",
 			"from": "來自：{{source}}",
-			"installProject": "安裝 (專案)",
+			"installProject": "安裝",
 			"installGlobal": "安裝 (全域)",
-			"removeProject": "移除 (專案)",
+			"removeProject": "移除",
 			"removeGlobal": "移除 (全域)",
 			"viewSource": "檢視",
-			"viewOnSource": "在 {{source}} 上檢視"
-		},
-		"count": "找到 {{count}} 個項目"
+			"viewOnSource": "在 {{source}} 上檢視",
+			"installProjectTooltip": "專案安裝"
+		}
 	},
 	"sources": {
 		"title": "市集來源",
@@ -93,22 +96,5 @@
 			"nonVisibleCharsName": "名稱包含不可見字元。",
 			"duplicateName": "具有此名稱的來源已存在。"
 		}
-	},
-	"filters": {
-		"sources": {
-			"title": "市集來源",
-			"description": "新增或管理 Marketplace 項目的來源。每個來源都是包含 Marketplace 項目定義的 Git 儲存庫。"
-		},
-		"tags": {
-			"clear": "清除 {{count}} 個所選標籤",
-			"selected": "{{count}} 個所選標籤"
-		}
-	},
-	"title": "市集",
-	"done": "完成",
-	"refresh": "重新整理",
-	"tabs": {
-		"installed": "已安裝",
-		"settings": "設定"
 	}
 }

@@ -13,7 +13,8 @@
 		"type": {
 			"label": "Filtra per tipo:",
 			"all": "Tutti i tipi",
-			"mode server": "MCP Server",
+			"mode": "Modalità",
+			"mcp server": "MCP Server",
 			"prompt": "Prompt",
 			"package": "Pacchetto"
 		},
@@ -45,25 +46,29 @@
 		"empty": {
 			"noItems": "Nessun elemento trovato nel marketplace",
 			"withFilters": "Prova a modificare i filtri",
-			"noSources": "Prova ad aggiungere una fonte nella scheda Fonti"
+			"noSources": "Prova ad aggiungere una fonte nella scheda Fonti",
+			"adjustFilters": "Prova a regolare i tuoi filtri o termini di ricerca",
+			"clearAllFilters": "Cancella tutti i filtri"
 		},
 		"count": "{{count}} elementi trovati",
 		"components": "{{count}} componenti",
 		"refresh": {
 			"button": "Aggiorna",
-			"refreshing": "Aggiornamento in corso..."
+			"refreshing": "Aggiornamento in corso...",
+			"mayTakeMoment": "Questo potrebbe richiedere un momento."
 		},
 		"card": {
 			"by": "di {{author}}",
 			"from": "da {{source}}",
-			"installProject": "Installa (Progetto)",
+			"installProject": "Installa",
 			"installGlobal": "Installa (Globale)",
-			"removeProject": "Rimuovi (Progetto)",
+			"removeProject": "Rimuovi",
 			"removeGlobal": "Rimuovi (Globale)",
 			"viewSource": "Visualizza",
 			"viewOnSource": "Visualizza su {{source}}"
 		}
 	},
+	"installProjectTooltip": "Installazione del progetto",
 	"sources": {
 		"title": "Fonti del Marketplace",
 		"description": "Aggiungi o gestisci le fonti per gli elementi del marketplace. Ogni fonte è un repository Git che contiene le definizioni degli elementi del marketplace.",

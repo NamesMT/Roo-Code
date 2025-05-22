@@ -43,10 +43,6 @@ export function loadTranslations() {
 	Object.entries(translations).forEach(([lang, namespaces]) => {
 		try {
 			Object.entries(namespaces).forEach(([namespace, resources]) => {
-				if (lang === "ja" && namespace === "marketplace") {
-					console.log("Loading en translations")
-					console.log(resources)
-				}
 				i18next.addResourceBundle(lang, namespace, resources, true, true)
 			})
 		} catch (error) {

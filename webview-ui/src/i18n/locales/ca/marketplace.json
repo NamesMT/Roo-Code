@@ -46,25 +46,29 @@
 		"empty": {
 			"noItems": "No s'han trobat elements al marketplace",
 			"withFilters": "Prova d'ajustar els filtres",
-			"noSources": "Prova d'afegir una font a la pestanya Fonts"
+			"noSources": "Prova d'afegir una font a la pestanya Fonts",
+			"adjustFilters": "Prova d'ajustar els filtres o els termes de cerca",
+			"clearAllFilters": "Esborrar tots els filtres"
 		},
 		"count": "{{count}} element{{count !== 1 ? 's' : ''}} trobats",
 		"components": "{{count}} components",
 		"refresh": {
 			"button": "Actualitzar",
-			"refreshing": "Actualitzant..."
+			"refreshing": "Actualitzant...",
+			"mayTakeMoment": "Això pot trigar un moment."
 		},
 		"card": {
 			"by": "per {{author}}",
 			"from": "de {{source}}",
-			"installProject": "Instal·lar (Projecte)",
-			"installGlobal": "Instal·lar (Global)",
-			"removeProject": "Eliminar (Projecte)",
+			"installProject": "Instal·lar",
+			"installGlobal": "Instal·lar (Global),",
+			"removeProject": "Eliminar",
 			"removeGlobal": "Eliminar (Global)",
 			"viewSource": "Veure",
 			"viewOnSource": "Veure a {{source}}"
 		}
 	},
+	"installProjectTooltip": "Instal·lació del projecte",
 	"sources": {
 		"title": "Fonts del Marketplace",
 		"description": "Afegeix o gestiona fonts per als elements del marketplace. Cada font és un repositori Git que conté definicions d'elements del marketplace.",

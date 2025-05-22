@@ -43,28 +43,32 @@
 		"generic-type": "{{type}}"
 	},
 	"items": {
-		"empty": {
-			"noItems": "No se encontraron elementos en el marketplace",
-			"withFilters": "Intente ajustar los filtros",
-			"noSources": "Intente agregar una fuente en la pestaña Fuentes"
-		},
 		"count": "{{count}} elemento{{count !== 1 ? 's' : ''}} encontrados",
 		"components": "{{count}} componentes",
 		"refresh": {
 			"button": "Actualizar",
-			"refreshing": "Actualizando..."
+			"refreshing": "Actualizando...",
+			"mayTakeMoment": "Esto puede tardar un momento..."
+		},
+		"empty": {
+			"noItems": "No se encontraron elementos en el marketplace",
+			"withFilters": "Intente ajustar los filtros",
+			"noSources": "Intente agregar una fuente en la pestaña Fuentes",
+			"adjustFilters": "Intenta ajustar tus filtros o términos de búsqueda",
+			"clearAllFilters": "Borrar todos los filtros"
 		},
 		"card": {
 			"by": "por {{author}}",
 			"from": "de {{source}}",
-			"installProject": "Instalar (Proyecto)",
+			"installProject": "Instalar",
 			"installGlobal": "Instalar (Global)",
-			"removeProject": "Eliminar (Proyecto)",
+			"removeProject": "Eliminar",
 			"removeGlobal": "Eliminar (Global)",
 			"viewSource": "Ver",
 			"viewOnSource": "Ver en {{source}}"
 		}
 	},
+	"installProjectTooltip": "Instalación del proyecto",
 	"sources": {
 		"title": "Fuentes del Marketplace",
 		"description": "Agregue o administre fuentes para los elementos del marketplace. Cada fuente es un repositorio Git que contiene definiciones de elementos del marketplace.",

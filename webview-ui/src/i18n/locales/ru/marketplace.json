@@ -46,25 +46,28 @@
 		"empty": {
 			"noItems": "Элементы marketplace не найдены",
 			"withFilters": "Попробуйте настроить фильтры",
-			"noSources": "Попробуйте добавить источник на вкладке «Источники»"
+			"noSources": "Попробуйте добавить источник на вкладке «Источники»",
+			"adjustFilters": "Попробуйте настроить фильтры или условия поиска",
+			"clearAllFilters": "Очистить все фильтры"
 		},
 		"count": "{{count}} элементов найдено",
 		"components": "{{count}} компонентов",
 		"refresh": {
 			"button": "Обновить",
-			"refreshing": "Обновление..."
+			"refreshing": "Обновление...",
+			"mayTakeMoment": "Это может занять некоторое время."
 		},
 		"card": {
 			"by": "от {{author}}",
 			"from": "из {{source}}",
-			"installProject": "Установить (Проект)",
+			"installProject": "Установить",
 			"installGlobal": "Установить (Глобально)",
-			"removeProject": "Удалить (Проект)",
+			"removeProject": "Удалить",
 			"removeGlobal": "Удалить (Глобально)",
 			"viewSource": "Просмотреть",
-			"viewOnSource": "Просмотреть на {{source}}"
-		},
-		"count": "{{count}} элемент{{count !== 1 ? 'ов' : 'а'}} найдено"
+			"viewOnSource": "Просмотреть на {{source}}",
+			"installProjectTooltip": "Установка проекта"
+		}
 	},
 	"sources": {
 		"title": "Источники Marketplace",
@@ -93,22 +96,5 @@
 			"nonVisibleCharsName": "Имя содержит невидимые символы.",
 			"duplicateName": "Источник с этим именем уже существует."
 		}
-	},
-	"filters": {
-		"sources": {
-			"title": "Источники Marketplace",
-			"description": "Добавьте или управляйте источниками для элементов Marketplace. Каждый источник — это репозиторий Git, содержащий определения элементов Marketplace."
-		},
-		"tags": {
-			"clear": "Очистить {{count}} выбранны{{count !== 1 ? 'х' : 'й'}} тег{{count !== 1 ? 'ов' : 'а'}}",
-			"selected": "{{count}} выбранны{{count !== 1 ? 'х' : 'й'}} тег{{count !== 1 ? 'ов' : 'а'}}"
-		}
-	},
-	"title": "Marketplace",
-	"done": "Готово",
-	"refresh": "Обновить",
-	"tabs": {
-		"installed": "Установлено",
-		"settings": "Настройки"
 	}
 }

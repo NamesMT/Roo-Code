@@ -13,7 +13,8 @@
 		"type": {
 			"label": "유형별 필터:",
 			"all": "모든 유형",
-			"mode server": "MCP Server",
+			"mode": "모드",
+			"mcp server": "MCP Server",
 			"prompt": "프롬프트",
 			"package": "패키지"
 		},
@@ -45,25 +46,29 @@
 		"empty": {
 			"noItems": "마켓플레이스 항목을 찾을 수 없습니다",
 			"withFilters": "필터를 조정해 보세요",
-			"noSources": "소스 탭에서 소스를 추가해 보세요"
+			"noSources": "소스 탭에서 소스를 추가해 보세요",
+			"adjustFilters": "필터 또는 검색어를 조정해 보세요",
+			"clearAllFilters": "모든 필터 지우기"
 		},
 		"count": "{{count}}개 항목",
 		"components": "{{count}}개 구성 요소",
 		"refresh": {
 			"button": "새로 고침",
-			"refreshing": "새로 고치는 중..."
+			"refreshing": "새로 고치는 중...",
+			"mayTakeMoment": "잠시 시간이 걸릴 수 있습니다."
 		},
 		"card": {
 			"by": "작성자: {{author}}",
 			"from": "출처: {{source}}",
-			"installProject": "설치 (프로젝트)",
+			"installProject": "설치",
 			"installGlobal": "설치 (글로벌)",
-			"removeProject": "제거 (프로젝트)",
+			"removeProject": "제거",
 			"removeGlobal": "제거 (글로벌)",
 			"viewSource": "보기",
 			"viewOnSource": "{{source}}에서 보기"
 		}
 	},
+	"installProjectTooltip": "프로젝트 설치",
 	"sources": {
 		"title": "마켓플레이스 소스",
 		"description": "마켓플레이스 항목의 소스를 추가하거나 관리합니다. 각 소스는 마켓플레이스 항목 정의가 포함된 Git 리포지토리입니다.",

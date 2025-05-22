@@ -270,7 +270,7 @@ export function MarketplaceListView({
 				</div>
 			</div>
 
-			{state.isFetching && (
+			{state.isFetching && isEmpty && (
 				<div className="flex flex-col items-center justify-center h-64 text-vscode-descriptionForeground animate-fade-in">
 					<div className="animate-spin mb-4">
 						<span className="codicon codicon-sync text-3xl"></span>
