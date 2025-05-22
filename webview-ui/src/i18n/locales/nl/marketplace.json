@@ -95,7 +95,8 @@
 			"duplicateUrl": "Een bron met deze URL bestaat al.",
 			"nameTooLong": "Naam mag niet langer zijn dan 20 tekens.",
 			"nonVisibleCharsName": "Naam bevat niet-zichtbare tekens.",
-			"duplicateName": "Een bron met deze naam bestaat al."
+			"duplicateName": "Een bron met deze naam bestaat al.",
+			"emojiName": "Emoji-tekens kunnen weergaveproblemen veroorzaken."
 		}
 	}
 }

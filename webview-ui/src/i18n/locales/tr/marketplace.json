@@ -94,7 +94,8 @@
 			"duplicateUrl": "Bu URL zaten listede (büyük/küçük harf ve boşluk duyarsız eşleşme)",
 			"nameTooLong": "İsim 20 karakteri geçemez.",
 			"nonVisibleCharsName": "Ad görünmeyen karakterler içeriyor.",
-			"duplicateName": "Bu ada sahip bir kaynak zaten var."
+			"duplicateName": "Bu ada sahip bir kaynak zaten var.",
+			"emojiName": "Emoji karakterleri görüntüleme sorunlarına neden olabilir."
 		}
 	}
 }

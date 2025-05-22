@@ -94,7 +94,8 @@
 			"duplicateUrl": "Đã có một nguồn có URL này.",
 			"nameTooLong": "Tên không được dài hơn 20 ký tự.",
 			"nonVisibleCharsName": "Tên chứa các ký tự không hiển thị.",
-			"duplicateName": "Đã có một nguồn có tên này."
+			"duplicateName": "Đã có một nguồn có tên này.",
+			"emojiName": "Ký tự biểu tượng cảm xúc có thể gây ra sự cố hiển thị."
 		}
 	}
 }

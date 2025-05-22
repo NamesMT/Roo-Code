@@ -95,7 +95,8 @@
 			"duplicateUrl": "Źródło o tym adresie URL już istnieje.",
 			"nameTooLong": "Nazwa nie może przekraczać 20 znaków.",
 			"nonVisibleCharsName": "Nazwa zawiera niewidoczne znaki.",
-			"duplicateName": "Źródło o tej nazwie już istnieje."
+			"duplicateName": "Źródło o tej nazwie już istnieje.",
+			"emojiName": "Znaki emoji mogą powodować problemy z wyświetlaniem."
 		}
 	}
 }

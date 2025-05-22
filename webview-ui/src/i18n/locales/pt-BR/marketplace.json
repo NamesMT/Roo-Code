@@ -94,7 +94,8 @@
 			"duplicateUrl": "Já existe uma fonte com este URL.",
 			"nameTooLong": "O nome não pode exceder 20 caracteres.",
 			"nonVisibleCharsName": "O nome contém caracteres não visíveis.",
-			"duplicateName": "Já existe uma fonte com este nome."
+			"duplicateName": "Já existe uma fonte com este nome.",
+			"emojiName": "Caracteres emoji podem causar problemas de exibição."
 		}
 	}
 }

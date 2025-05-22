@@ -94,7 +94,8 @@
 			"duplicateUrl": "具有此 URL 的來源已存在。",
 			"nameTooLong": "名稱不得超過 20 個字元。",
 			"nonVisibleCharsName": "名稱包含不可見字元。",
-			"duplicateName": "具有此名稱的來源已存在。"
+			"duplicateName": "具有此名稱的來源已存在。",
+			"emojiName": "表情符號可能會導致顯示問題。"
 		}
 	}
 }

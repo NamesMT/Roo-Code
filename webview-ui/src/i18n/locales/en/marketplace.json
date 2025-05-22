@@ -94,6 +94,7 @@
 			"nameTooLong": "Name must be 20 characters or less",
 			"nonVisibleCharsName": "Name contains non-visible characters other than spaces",
 			"duplicateName": "This name is already in use (case and whitespace insensitive match)",
+			"emojiName": "Emoji characters may cause display issues",
 			"maxSources": "Maximum of {{max}} sources allowed"
 		}
 	}

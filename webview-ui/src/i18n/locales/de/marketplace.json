@@ -95,6 +95,7 @@
 			"nameTooLong": "Der Name darf 20 Zeichen nicht überschreiten.",
 			"nonVisibleCharsName": "Der Name enthält nicht sichtbare Zeichen.",
 			"duplicateName": "Eine Quelle mit diesem Namen ist bereits vorhanden.",
+			"emojiName": "Emoji-Zeichen können Anzeigeprobleme verursachen.",
 			"invalidUrl": "Invalid URL format"
 		}
 	}

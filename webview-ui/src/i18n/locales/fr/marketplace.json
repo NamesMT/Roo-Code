@@ -95,6 +95,7 @@
 			"nameTooLong": "Le nom ne peut pas dépasser 20 caractères.",
 			"nonVisibleCharsName": "Le nom contient des caractères non visibles.",
 			"duplicateName": "Une source avec ce nom existe déjà.",
+			"emojiName": "Les caractères emoji peuvent causer des problèmes d'affichage.",
 			"invalidUrl": "Invalid URL format"
 		}
 	}
