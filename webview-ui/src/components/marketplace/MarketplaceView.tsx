@@ -13,7 +13,7 @@ import { RocketConfig } from "config-rocket"
 import { MarketplaceSourcesConfig } from "./MarketplaceSourcesConfigView"
 import { MarketplaceListView } from "./MarketplaceListView"
 import { cn } from "@/lib/utils"
-import { Package, PackageCheck, RefreshCw, Settings } from "lucide-react"
+import { RefreshCw } from "lucide-react"
 import { TooltipProvider } from "@/components/ui/tooltip"
 
 interface MarketplaceViewProps {
@@ -103,22 +103,23 @@ export function MarketplaceView({ stateManager, onDone }: MarketplaceViewProps) 
 
 					<div className="w-full mt-2">
 						<div className="flex relative py-1">
-							<div
-								className={cn(
-									"absolute w-1/3 h-[2px] -bottom-[2px] bg-vscode-button-background transition-all duration-300 ease-in-out",
-									{
-										"left-0": state.activeTab === "browse",
-										"left-1/3": state.activeTab === "installed",
-										"left-2/3": state.activeTab === "settings",
-									},
-								)}
-							/>
+							<div className="absolute w-full h-[2px] -bottom-[2px] bg-vscode-input-border">
+								<div
+									className={cn(
+										"absolute w-1/3 h-[2px] bottom-0 bg-vscode-button-background transition-all duration-300 ease-in-out",
+										{
+											"left-0": state.activeTab === "browse",
+											"left-1/3": state.activeTab === "installed",
+											"left-2/3": state.activeTab === "settings",
+										},
+									)}
+								/>
+							</div>
 							<button
 								className="flex items-center justify-center gap-2 flex-1 text-sm font-medium rounded-sm transition-colors duration-300 relative z-10 text-vscode-foreground"
 								onClick={() =>
 									manager.transition({ type: "SET_ACTIVE_TAB", payload: { tab: "browse" } })
 								}>
-								<Package className="size-4" />
 								{t("marketplace:tabs.browse")}
 							</button>
 							<button
@@ -126,7 +127,6 @@ export function MarketplaceView({ stateManager, onDone }: MarketplaceViewProps) 
 								onClick={() =>
 									manager.transition({ type: "SET_ACTIVE_TAB", payload: { tab: "installed" } })
 								}>
-								<PackageCheck className="size-4" />
 								{t("marketplace:tabs.installed")}
 							</button>
 							<button
@@ -134,7 +134,6 @@ export function MarketplaceView({ stateManager, onDone }: MarketplaceViewProps) 
 								onClick={() =>
 									manager.transition({ type: "SET_ACTIVE_TAB", payload: { tab: "settings" } })
 								}>
-								<Settings className="size-4" />
 								{t("marketplace:tabs.settings")}
 							</button>
 						</div>
