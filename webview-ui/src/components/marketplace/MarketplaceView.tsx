@@ -24,8 +24,6 @@ export function MarketplaceView({ stateManager, onDone }: MarketplaceViewProps) 
 	const { t } = useAppTranslation()
 	const [state, manager] = useStateManager(stateManager)
 
-	const [tagSearch, setTagSearch] = useState("")
-	const [isTagPopoverOpen, setIsTagPopoverOpen] = useState(false)
 	const [showInstallSidebar, setShowInstallSidebar] = useState<
 		| {
 				item: MarketplaceItem
@@ -84,11 +82,7 @@ export function MarketplaceView({ stateManager, onDone }: MarketplaceViewProps) 
 	)
 
 	// Memoize filtered tags
-	const filteredTags = useMemo(
-		() =>
-			tagSearch ? allTags.filter((tag: string) => tag.toLowerCase().includes(tagSearch.toLowerCase())) : allTags,
-		[allTags, tagSearch],
-	)
+	const filteredTags = useMemo(() => allTags, [allTags])
 
 	return (
 		<TooltipProvider>
@@ -159,10 +153,6 @@ export function MarketplaceView({ stateManager, onDone }: MarketplaceViewProps) 
 								stateManager={stateManager}
 								allTags={allTags}
 								filteredTags={filteredTags}
-								tagSearch={tagSearch}
-								setTagSearch={setTagSearch}
-								isTagPopoverOpen={isTagPopoverOpen}
-								setIsTagPopoverOpen={setIsTagPopoverOpen}
 							/>
 						</div>
 
@@ -176,10 +166,6 @@ export function MarketplaceView({ stateManager, onDone }: MarketplaceViewProps) 
 								stateManager={stateManager}
 								allTags={allTags}
 								filteredTags={filteredTags}
-								tagSearch={tagSearch}
-								setTagSearch={setTagSearch}
-								isTagPopoverOpen={isTagPopoverOpen}
-								setIsTagPopoverOpen={setIsTagPopoverOpen}
 								showInstalledOnly={true}
 							/>
 						</div>
