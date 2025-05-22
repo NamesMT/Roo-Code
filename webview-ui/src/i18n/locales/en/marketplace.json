@@ -1,9 +1,12 @@
 {
 	"title": "Marketplace",
 	"tabs": {
-		"browse": "Browse",
-		"sources": "Sources"
+		"installed": "Installed",
+		"settings": "Settings",
+		"browse": "Browse"
 	},
+	"done": "Done",
+	"refresh": "Refresh",
 	"filters": {
 		"search": {
 			"placeholder": "Search marketplace items..."

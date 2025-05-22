@@ -17,6 +17,7 @@ export interface MarketplaceListViewProps {
 	setTagSearch: (value: string) => void
 	isTagPopoverOpen: boolean
 	setIsTagPopoverOpen: (value: boolean) => void
+	showInstalledOnly?: boolean
 }
 
 export function MarketplaceListView({
@@ -27,10 +28,14 @@ export function MarketplaceListView({
 	setTagSearch,
 	isTagPopoverOpen,
 	setIsTagPopoverOpen,
+	showInstalledOnly = false,
 }: MarketplaceListViewProps) {
 	const [state, manager] = useStateManager(stateManager)
 	const { t } = useAppTranslation()
-	const items = state.displayItems || []
+	const allItems = state.displayItems || []
+	const items = showInstalledOnly
+		? allItems.filter((item) => state.installedMetadata.project[item.id] || state.installedMetadata.global[item.id])
+		: allItems
 	const isEmpty = items.length === 0
 
 	return (
@@ -142,7 +147,7 @@ export function MarketplaceListView({
 											},
 										})
 									}
-									className="shadow-none bg-vscode-input-background px-2">
+									className="shadow-none bg-vscode-dropdown-background px-2">
 									{state.sortConfig.order === "asc" ? "↑" : "↓"}
 								</Button>
 							</div>
